@@ -13,7 +13,7 @@ import { HashtagPlugin } from "@lexical/react/LexicalHashtagPlugin";
 import { MentionNode } from "../utils/MentionNode";
 import MentionsPlugin from "./MentionsPlugin";
 
-import Toolbar from "./Toolbar";
+// import Toolbar from "./Toolbar";
 
 const initialConfig = {
   namespace: "LexicalEditor",
@@ -34,12 +34,12 @@ export default function Editor() {
   return (
     <LexicalComposer initialConfig={initialConfig}>
       <div className="editor-page">
-        <Toolbar />
+        {/* <Toolbar /> */}
 
-        <input
+        {/* <input
           className="editor-title"
           placeholder="Enter title (optional)"
-        />
+        /> */}
 
         <div className="editor-inner">
           <RichTextPlugin
