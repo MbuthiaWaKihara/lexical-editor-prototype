@@ -12,6 +12,7 @@ import { HashtagNode } from "@lexical/hashtag";
 import { HashtagPlugin } from "@lexical/react/LexicalHashtagPlugin";
 import { MentionNode } from "../utils/MentionNode";
 import MentionsPlugin from "./MentionsPlugin";
+import EditorBridgePlugin from "./EditorBridgePlugin";
 
 // import Toolbar from "./Toolbar";
 
@@ -56,6 +57,7 @@ export default function Editor() {
           <LinkPlugin />
           <HashtagPlugin />
           <MentionsPlugin />
+          <EditorBridgePlugin />
         </div>
       </div>
     </LexicalComposer>
