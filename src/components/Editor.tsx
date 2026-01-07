@@ -47,7 +47,7 @@ export default function Editor() {
             contentEditable={<ContentEditable className="editor-input" />}
             placeholder={
               <div className="editor-placeholder">
-                Create a post. Use @ for members and # for channels.
+                Create a post. Use @ for members and # for channels
               </div>
             }
             ErrorBoundary={LexicalErrorBoundary}
