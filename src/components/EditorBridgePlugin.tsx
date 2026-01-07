@@ -35,6 +35,7 @@ export default function EditorBridgePlugin() {
 
       try {
         data = JSON.parse(event.data);
+        console.log(data);
       } catch {
         return;
       }
