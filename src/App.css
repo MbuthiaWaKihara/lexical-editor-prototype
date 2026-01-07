@@ -57,11 +57,11 @@
 
 /* Placeholder */
 .editor-placeholder {
-  position: absolute;
-  top: 0;
-  left: 0;
+  /* position: absolute; */
+  /* top: 0; */
+  /* left: 0; */
   color: #9ca3af;
-  pointer-events: none;
+  /* pointer-events: none; */
 }
 
 /* Headings */
