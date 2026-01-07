@@ -13,11 +13,13 @@ import { HashtagPlugin } from "@lexical/react/LexicalHashtagPlugin";
 import { MentionNode } from "../utils/MentionNode";
 import MentionsPlugin from "./MentionsPlugin";
 import EditorBridgePlugin from "./EditorBridgePlugin";
+import { lexicalTheme } from "../utils/lexicalTheme";
 
 // import Toolbar from "./Toolbar";
 
 const initialConfig = {
   namespace: "LexicalEditor",
+  theme: lexicalTheme,
   onError(error: Error) {
     throw error;
   },
