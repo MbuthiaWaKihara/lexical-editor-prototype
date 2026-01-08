@@ -31,7 +31,7 @@ export default function EditorBridgePlugin() {
 
   useEffect(() => {
     function handleMessage(event: MessageEvent) {
-      let data: EditorCommand;
+      let data: any;
 
       try {
         data = JSON.parse(event.data);
@@ -80,6 +80,8 @@ export default function EditorBridgePlugin() {
 
         // ===== EXPORT STATE =====
         case "get-editor-state":
+          const { requestId } = data;
+
           editor.getEditorState().read(() => {
             const html = $generateHtmlFromNodes(editor);
             const json = editor.getEditorState().toJSON();
@@ -89,6 +91,7 @@ export default function EditorBridgePlugin() {
             window.ReactNativeWebView?.postMessage(
               JSON.stringify({
                 type: "editor-state",
+                requestId,
                 payload: {
                   html,
                   json,
