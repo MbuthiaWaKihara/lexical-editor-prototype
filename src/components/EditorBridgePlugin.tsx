@@ -9,9 +9,8 @@ import {
   INSERT_UNORDERED_LIST_COMMAND,
   REMOVE_LIST_COMMAND,
 } from "@lexical/list";
-import {
-  $createHeadingNode,
-} from "@lexical/rich-text";
+import { $createHeadingNode } from "@lexical/rich-text";
+import { $generateHtmlFromNodes } from "@lexical/html";
 import { useEffect } from "react";
 
 type EditorCommand =
@@ -24,7 +23,8 @@ type EditorCommand =
   | { type: "h3" }
   | { type: "ordered-list" }
   | { type: "unordered-list" }
-  | { type: "remove-list" };
+  | { type: "remove-list" }
+  | { type: "get-editor-state" };
 
 export default function EditorBridgePlugin() {
   const [editor] = useLexicalComposerContext();
@@ -35,7 +35,6 @@ export default function EditorBridgePlugin() {
 
       try {
         data = JSON.parse(event.data);
-        console.log(data);
       } catch {
         return;
       }
@@ -43,15 +42,9 @@ export default function EditorBridgePlugin() {
       switch (data.type) {
         // ===== TEXT STYLES =====
         case "bold":
-          editor.dispatchCommand(FORMAT_TEXT_COMMAND, "bold");
-          break;
-
         case "italic":
-          editor.dispatchCommand(FORMAT_TEXT_COMMAND, "italic");
-          break;
-
         case "underline":
-          editor.dispatchCommand(FORMAT_TEXT_COMMAND, "underline");
+          editor.dispatchCommand(FORMAT_TEXT_COMMAND, data.type);
           break;
 
         case "strike":
@@ -74,29 +67,39 @@ export default function EditorBridgePlugin() {
 
         // ===== LISTS =====
         case "unordered-list":
-          editor.dispatchCommand(
-            INSERT_UNORDERED_LIST_COMMAND,
-            undefined
-          );
+          editor.dispatchCommand(INSERT_UNORDERED_LIST_COMMAND, undefined);
           break;
 
         case "ordered-list":
-          editor.dispatchCommand(
-            INSERT_ORDERED_LIST_COMMAND,
-            undefined
-          );
+          editor.dispatchCommand(INSERT_ORDERED_LIST_COMMAND, undefined);
           break;
 
         case "remove-list":
-          editor.dispatchCommand(
-            REMOVE_LIST_COMMAND,
-            undefined
-          );
+          editor.dispatchCommand(REMOVE_LIST_COMMAND, undefined);
+          break;
+
+        // ===== EXPORT STATE =====
+        case "get-editor-state":
+          editor.getEditorState().read(() => {
+            const html = $generateHtmlFromNodes(editor);
+            const json = editor.getEditorState().toJSON();
+
+            // Send back to React Native
+            // @ts-ignore
+            window.ReactNativeWebView?.postMessage(
+              JSON.stringify({
+                type: "editor-state",
+                payload: {
+                  html,
+                  json,
+                },
+              })
+            );
+          });
           break;
       }
     }
 
-    // iOS
     window.addEventListener("message", handleMessage);
     // Android WebView
     // @ts-ignore

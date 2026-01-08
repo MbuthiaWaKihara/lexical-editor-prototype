@@ -1,8 +1,7 @@
 /* Page container */
 .editor-page {
-  max-width: 720px;
-  margin: 40px auto;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  border: 1px solid #333333;
 }
 
 /* Toolbar */
@@ -44,7 +43,7 @@
 /* Editor wrapper */
 .editor-inner {
   position: relative;
-  margin-top: 8px;
+  /* margin-top: 8px; */
 }
 
 /* ContentEditable */
