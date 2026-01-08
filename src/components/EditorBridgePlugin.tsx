@@ -24,14 +24,14 @@ type EditorCommand =
   | { type: "ordered-list" }
   | { type: "unordered-list" }
   | { type: "remove-list" }
-  | { type: "get-editor-state" };
+  | { type: "get-editor-state", requestId: Number };
 
 export default function EditorBridgePlugin() {
   const [editor] = useLexicalComposerContext();
 
   useEffect(() => {
     function handleMessage(event: MessageEvent) {
-      let data: any;
+      let data: EditorCommand;
 
       try {
         data = JSON.parse(event.data);
