@@ -12,6 +12,7 @@ import {
 import { $createHeadingNode } from "@lexical/rich-text";
 import { $generateHtmlFromNodes } from "@lexical/html";
 import { useEffect } from "react";
+import { setEditorRuntimeConfig } from "../utils/editorRuntimeConfig";
 
 type EditorCommand =
   | { type: "bold" }
@@ -24,7 +25,14 @@ type EditorCommand =
   | { type: "ordered-list" }
   | { type: "unordered-list" }
   | { type: "remove-list" }
-  | { type: "get-editor-state", requestId: Number };
+  | { type: "get-editor-state"; requestId: number }
+  | {
+      type: "init-config";
+      payload: {
+        mentionsUrl?: string;
+        accessToken?: string;
+      };
+    };
 
 export default function EditorBridgePlugin() {
   const [editor] = useLexicalComposerContext();
@@ -40,6 +48,10 @@ export default function EditorBridgePlugin() {
       }
 
       switch (data.type) {
+        // ===== RUNTIME CONFIG (NEW) =====
+        case "init-config":
+          setEditorRuntimeConfig(data.payload);
+          return;
         // ===== TEXT STYLES =====
         case "bold":
         case "italic":

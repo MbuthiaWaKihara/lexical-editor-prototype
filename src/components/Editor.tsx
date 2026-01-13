@@ -14,6 +14,7 @@ import { MentionNode } from "../utils/MentionNode";
 import MentionsPlugin from "./MentionsPlugin";
 import EditorBridgePlugin from "./EditorBridgePlugin";
 import { lexicalTheme } from "../utils/lexicalTheme";
+import { EditorConfigProvider } from "./EditorConfigContext";
 
 // import Toolbar from "./Toolbar";
 
@@ -35,6 +36,8 @@ const initialConfig = {
 
 export default function Editor() {
   return (
+    <EditorConfigProvider
+    >
     <LexicalComposer initialConfig={initialConfig}>
       <div className="editor-page">
         {/* <Toolbar /> */}
@@ -63,5 +66,6 @@ export default function Editor() {
         </div>
       </div>
     </LexicalComposer>
+    </EditorConfigProvider>
   );
 }

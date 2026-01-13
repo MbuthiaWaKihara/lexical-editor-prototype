@@ -3,23 +3,63 @@ import {
 } from "@lexical/react/LexicalTypeaheadMenuPlugin";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { $insertNodes } from "lexical";
-import { useMemo, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { $createMentionNode } from "../utils/MentionNode";
+import { getEditorRuntimeConfig } from "../utils/editorRuntimeConfig";
 
-const USERS = [
-  { id: "1", name: "Alice" },
-  { id: "2", name: "Bob" },
-  { id: "3", name: "Charlie" },
-];
+type MentionUser = {
+  id: string;
+  name: string;
+};
 
 export default function MentionsPlugin() {
   const [editor] = useLexicalComposerContext();
   const [query, setQuery] = useState("");
+  const [results, setResults] = useState<MentionUser[]>([]);
+  const debounceRef = useRef<number | null>(null);
 
-  const results = useMemo(() => {
-    return USERS.filter((user) =>
-      user && user.name && query && user.name.toLowerCase().includes(query.toLowerCase())
-    );
+  useEffect(() => {
+    const { mentionsUrl, accessToken } = getEditorRuntimeConfig();
+
+    if (!mentionsUrl || !accessToken || !query) {
+      setResults([]);
+      return;
+    }
+
+    // debounce typing
+    if (debounceRef.current) {
+      clearTimeout(debounceRef.current);
+    }
+
+    debounceRef.current = window.setTimeout(async () => {
+      try {
+        const res = await fetch(
+          `${mentionsUrl}?q=${encodeURIComponent(query)}`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        if (!res.ok) {
+          setResults([]);
+          return;
+        }
+
+        const data = await res.json();
+        setResults(data ?? []);
+      } catch {
+        setResults([]);
+      }
+    }, 250);
+
+    return () => {
+      if (debounceRef.current) {
+        clearTimeout(debounceRef.current);
+      }
+    };
   }, [query]);
 
   return (
@@ -36,8 +76,10 @@ export default function MentionsPlugin() {
       }}
       //@ts-ignore
       onQueryChange={setQuery}
+      //@ts-ignore
       options={results}
-      onSelectOption={(user: any) => {
+      //@ts-ignore
+      onSelectOption={(user: MentionUser) => {
         editor.update(() => {
           const mentionNode = $createMentionNode(user.name);
           $insertNodes([mentionNode]);
@@ -46,7 +88,7 @@ export default function MentionsPlugin() {
       menuRenderFn={(anchorRef, { options, selectOption }: any) =>
         anchorRef.current && options.length ? (
           <div className="mention-menu">
-            {options.map((user: any) => (
+            {options.map((user: MentionUser) => (
               <div
                 key={user.id}
                 className="mention-item"
