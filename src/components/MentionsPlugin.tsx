@@ -20,6 +20,7 @@ export default function MentionsPlugin() {
 
   useEffect(() => {
     const { mentionsUrl, accessToken } = getEditorRuntimeConfig();
+    console.log('editor runtime config: ', getEditorRuntimeConfig());
 
     // if (!mentionsUrl || !accessToken) {
     //   setResults([]);
