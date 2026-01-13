@@ -33,7 +33,8 @@ export default function MentionsPlugin() {
 
     debounceRef.current = window.setTimeout(async () => {
       try {
-        console.log('about to make request');
+        console.log('mentionsUrl: ', mentionsUrl);
+        console.log('accessToken: ', accessToken);
         const res = await fetch(
           `${mentionsUrl}?q=${encodeURIComponent(query)}`,
           {
@@ -45,12 +46,12 @@ export default function MentionsPlugin() {
         );
 
         if (!res.ok) {
-          console.log(res);
+          console.log('error: ', res);
           setResults([]);
           return;
         }
 
-        console.log(res);
+        console.log('success: ', res);
         const data = await res.json();
         setResults(data ?? []);
       } catch {
