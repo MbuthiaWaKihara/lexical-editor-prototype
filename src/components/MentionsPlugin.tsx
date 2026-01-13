@@ -21,7 +21,7 @@ export default function MentionsPlugin() {
   useEffect(() => {
     const { mentionsUrl, accessToken } = getEditorRuntimeConfig();
 
-    if (!mentionsUrl || !accessToken || !query) {
+    if (!mentionsUrl || !accessToken) {
       setResults([]);
       return;
     }
@@ -67,13 +67,13 @@ export default function MentionsPlugin() {
   return (
     <LexicalTypeaheadMenuPlugin
       triggerFn={(text) => {
-        const match = /@([a-zA-Z]*)$/.exec(text);
+        const match = /(^|\s)@([\w]*)$/.exec(text);
         if (!match) return null;
 
         return {
-          leadOffset: match.index,
-          matchingString: match[1],
-          replaceableString: match[0],
+          leadOffset: match.index + match[1].length,
+          matchingString: match[2],
+          replaceableString: match[0].slice(match[1].length),
         };
       }}
       //@ts-ignore
