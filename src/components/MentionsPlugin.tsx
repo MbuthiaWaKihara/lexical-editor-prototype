@@ -21,10 +21,10 @@ export default function MentionsPlugin() {
   useEffect(() => {
     const { mentionsUrl, accessToken } = getEditorRuntimeConfig();
 
-    if (!mentionsUrl || !accessToken) {
-      setResults([]);
-      return;
-    }
+    // if (!mentionsUrl || !accessToken) {
+    //   setResults([]);
+    //   return;
+    // }
 
     // debounce typing
     if (debounceRef.current) {
@@ -33,6 +33,7 @@ export default function MentionsPlugin() {
 
     debounceRef.current = window.setTimeout(async () => {
       try {
+        console.log('about to make request');
         const res = await fetch(
           `${mentionsUrl}?q=${encodeURIComponent(query)}`,
           {
