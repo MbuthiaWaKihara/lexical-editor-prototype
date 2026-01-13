@@ -50,6 +50,7 @@ export default function EditorBridgePlugin() {
       switch (data.type) {
         // ===== RUNTIME CONFIG (NEW) =====
         case "init-config":
+          console.log('init-config payload: ', data.payload);
           setEditorRuntimeConfig(data.payload);
           return;
         // ===== TEXT STYLES =====
