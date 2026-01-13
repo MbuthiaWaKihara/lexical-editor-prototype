@@ -49,6 +49,7 @@ export default function MentionsPlugin() {
           return;
         }
 
+        console.log(res);
         const data = await res.json();
         setResults(data ?? []);
       } catch {
