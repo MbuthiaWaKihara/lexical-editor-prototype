@@ -44,6 +44,7 @@ export default function MentionsPlugin() {
         );
 
         if (!res.ok) {
+          console.log(res);
           setResults([]);
           return;
         }
