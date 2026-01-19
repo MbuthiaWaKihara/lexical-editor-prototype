@@ -15,6 +15,7 @@ import MentionsPlugin from "./MentionsPlugin";
 import EditorBridgePlugin from "./EditorBridgePlugin";
 import { lexicalTheme } from "../utils/lexicalTheme";
 import { EditorConfigProvider } from "./EditorConfigContext";
+import SelectionSyncPlugin from "./SelectionSyncPlugin";
 
 // import Toolbar from "./Toolbar";
 
@@ -63,6 +64,7 @@ export default function Editor() {
           <HashtagPlugin />
           <MentionsPlugin />
           <EditorBridgePlugin />
+          <SelectionSyncPlugin />
         </div>
       </div>
     </LexicalComposer>
