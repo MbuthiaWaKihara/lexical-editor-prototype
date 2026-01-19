@@ -1,7 +1,11 @@
+body {
+  align-items: flex-start;
+}
+
 /* Page container */
 .editor-page {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  border: 1px solid #333333;
+  min-width: 500px;
 }
 
 /* Toolbar */
@@ -56,11 +60,18 @@
 
 /* Placeholder */
 .editor-placeholder {
-  /* position: absolute; */
-  /* top: 0; */
-  /* left: 0; */
-  color: #9ca3af;
-  /* pointer-events: none; */
+   position: absolute;
+    top: 0;
+    left: 0;
+
+    padding: 0; /* match editor padding if you add any */
+    color: #9ca3af;
+
+    pointer-events: none;
+    user-select: none;
+
+    font-size: 16px;
+    line-height: 1.6;
 }
 
 /* Headings */

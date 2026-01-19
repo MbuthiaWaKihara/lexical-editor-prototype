@@ -4,7 +4,7 @@ import "./App.css";
 
 export default function App() {
   return (
-    <div style={{ padding: 40 }}>
+    <div>
       <Editor />
     </div>
   );
