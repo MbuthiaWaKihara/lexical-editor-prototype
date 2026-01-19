@@ -3,6 +3,8 @@ import {
   FORMAT_TEXT_COMMAND,
   $getSelection,
   $isRangeSelection,
+  $getRoot,
+  $createParagraphNode,
 } from "lexical";
 import {
   INSERT_ORDERED_LIST_COMMAND,
@@ -32,7 +34,8 @@ type EditorCommand =
         mentionsUrl?: string;
         accessToken?: string;
       };
-    };
+    }
+  | { type: "clear-editor" };
 
 export default function EditorBridgePlugin() {
   const [editor] = useLexicalComposerContext();
@@ -48,6 +51,15 @@ export default function EditorBridgePlugin() {
       }
 
       switch (data.type) {
+        case "clear-editor":
+          editor.update(() => {
+            const root = $getRoot();
+            root.clear();
+
+            // 👇 important: Lexical requires at least one paragraph
+            root.append($createParagraphNode());
+          });
+          return;
         // ===== RUNTIME CONFIG (NEW) =====
         case "init-config":
           console.log('init-config payload: ', data.payload);
