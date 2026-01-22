@@ -46,6 +46,7 @@ const initialConfig = {
  * @param query the text after the trigger
  */
 const onSearchMentions: any = async (trigger: string, query: string) => {
+  console.log(trigger)
   try {
     const { mentionsUrl, accessToken } = getEditorRuntimeConfig();
     if (!mentionsUrl || !accessToken) return [];
@@ -71,6 +72,7 @@ const onSearchMentions: any = async (trigger: string, query: string) => {
 }
 
 const MobileMenuItem = ({ item, selected, select }: any) => {
+  console.log(selected)
   return (
     <div
       style={{ padding: 8 }}
