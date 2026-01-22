@@ -10,7 +10,7 @@ import axios from "axios";
 
 type MentionUser = {
   id: string;
-  name: string;
+  full_name: string;
 };
 
 export default function MentionsPlugin() {
@@ -55,14 +55,14 @@ export default function MentionsPlugin() {
         // const data = await res.json();
         // setResults(data ?? []);
 
-        const response: any = axios.get(`${mentionsUrl}?q=${encodeURIComponent(query)}`, {
+        const response: any = await axios.get(`${mentionsUrl}?q=${encodeURIComponent(query)}`, {
             headers: {
               Authorization: `Bearer ${accessToken}`,
             }
         });
 
         console.log(response);
-        setResults(response.data);
+        setResults(response.data.data.map((userMembership: any) => userMembership.user));
       } catch(error) {
         console.log(error)
         setResults([]);
@@ -95,12 +95,12 @@ export default function MentionsPlugin() {
       //@ts-ignore
       onSelectOption={(user: MentionUser) => {
         editor.update(() => {
-          const mentionNode = $createMentionNode(user.name);
+          const mentionNode = $createMentionNode(user.full_name);
           $insertNodes([mentionNode]);
         });
       }}
       menuRenderFn={(anchorRef, { options, selectOption }: any) =>
-        anchorRef.current && options.length ? (
+        anchorRef.current && options && options.length ? (
           <div className="mention-menu">
             {options.map((user: MentionUser) => (
               <div
@@ -108,7 +108,7 @@ export default function MentionsPlugin() {
                 className="mention-item"
                 onClick={() => selectOption(user)}
               >
-                @{user.name}
+                {user.full_name}
               </div>
             ))}
           </div>
