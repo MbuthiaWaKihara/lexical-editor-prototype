@@ -6,6 +6,7 @@ import { $insertNodes } from "lexical";
 import { useEffect, useRef, useState } from "react";
 import { $createMentionNode } from "../utils/MentionNode";
 import { getEditorRuntimeConfig } from "../utils/editorRuntimeConfig";
+import axios from "axios";
 
 type MentionUser = {
   id: string;
@@ -34,26 +35,36 @@ export default function MentionsPlugin() {
 
     debounceRef.current = window.setTimeout(async () => {
       try {
-        const res = await fetch(
-          `${mentionsUrl}?q=${encodeURIComponent(query)}`,
-          {
+        // const res = await fetch(
+        //   `${mentionsUrl}?q=${encodeURIComponent(query)}`,
+        //   {
+        //     headers: {
+        //       Authorization: `Bearer ${accessToken}`,
+        //       "Content-Type": "application/json",
+        //     },
+        //   }
+        // );
+
+        // if (!res.ok) {
+        //   console.log('error: ', res);
+        //   setResults([]);
+        //   return;
+        // }
+
+        // console.log('success: ', res.json);
+        // const data = await res.json();
+        // setResults(data ?? []);
+
+        const response: any = axios.get(`${mentionsUrl}?q=${encodeURIComponent(query)}`, {
             headers: {
               Authorization: `Bearer ${accessToken}`,
-              "Content-Type": "application/json",
-            },
-          }
-        );
+            }
+        });
 
-        if (!res.ok) {
-          console.log('error: ', res);
-          setResults([]);
-          return;
-        }
-
-        console.log('success: ', res.json);
-        const data = await res.json();
-        setResults(data ?? []);
-      } catch {
+        console.log(response);
+        setResults(response.data);
+      } catch(error) {
+        console.log(error)
         setResults([]);
       }
     }, 250);
