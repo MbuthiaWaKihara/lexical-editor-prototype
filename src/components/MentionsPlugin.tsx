@@ -34,8 +34,6 @@ export default function MentionsPlugin() {
 
     debounceRef.current = window.setTimeout(async () => {
       try {
-        console.log('mentionsUrl: ', mentionsUrl);
-        console.log('accessToken: ', accessToken);
         const res = await fetch(
           `${mentionsUrl}?q=${encodeURIComponent(query)}`,
           {
@@ -52,7 +50,7 @@ export default function MentionsPlugin() {
           return;
         }
 
-        console.log('success: ', res);
+        console.log('success: ', res.json);
         const data = await res.json();
         setResults(data ?? []);
       } catch {
