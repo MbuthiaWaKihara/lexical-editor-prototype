@@ -20,6 +20,7 @@
     "@lexical/utils": "^0.39.0",
     "axios": "^1.13.2",
     "lexical": "^0.39.0",
+    "lexical-beautiful-mentions": "^0.1.48",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"
   },

@@ -10,14 +10,19 @@ import { ListItemNode, ListNode } from "@lexical/list";
 import { LinkNode } from "@lexical/link";
 import { HashtagNode } from "@lexical/hashtag";
 import { HashtagPlugin } from "@lexical/react/LexicalHashtagPlugin";
-import { MentionNode } from "../utils/MentionNode";
-import MentionsPlugin from "./MentionsPlugin";
-import EditorBridgePlugin from "./EditorBridgePlugin";
+
+import {
+  BeautifulMentionsPlugin,
+  BeautifulMentionNode,
+} from "lexical-beautiful-mentions"; // ✅ only these exports exist :contentReference[oaicite:2]{index=2}
+
 import { lexicalTheme } from "../utils/lexicalTheme";
 import { EditorConfigProvider } from "./EditorConfigContext";
 import SelectionSyncPlugin from "./SelectionSyncPlugin";
+import EditorBridgePlugin from "./EditorBridgePlugin";
 
-// import Toolbar from "./Toolbar";
+import axios from "axios";
+import { getEditorRuntimeConfig } from "../utils/editorRuntimeConfig";
 
 const initialConfig = {
   namespace: "LexicalEditor",
@@ -26,48 +31,77 @@ const initialConfig = {
     throw error;
   },
   nodes: [
-    HeadingNode, 
-    ListNode, 
-    ListItemNode, 
+    HeadingNode,
+    ListNode,
+    ListItemNode,
     LinkNode,
     HashtagNode,
-    MentionNode,
+    BeautifulMentionNode, // register the beautiful mention node
   ],
 };
 
+/**
+ * onSearch handler for beautiful mentions
+ * @param trigger the trigger character, e.g. "@"
+ * @param query the text after the trigger
+ */
+const onSearchMentions: any = async (trigger: string, query: string) => {
+  try {
+    const { mentionsUrl, accessToken } = getEditorRuntimeConfig();
+    if (!mentionsUrl || !accessToken) return [];
+
+    const res = await axios.get(
+      `${mentionsUrl}?q=${encodeURIComponent(query)}`,
+      {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      }
+    );
+
+    // The plugin expects an array of items with `value` and optional `data`.
+    return (
+      res.data?.data?.map((m: any) => ({
+        value: m.user.full_name,
+        data: m.user,
+      })) ?? []
+    );
+  } catch (err) {
+    console.error("mentions search failed", err);
+    return [];
+  }
+}
+
 export default function Editor() {
   return (
-    <EditorConfigProvider
-    >
-    <LexicalComposer initialConfig={initialConfig}>
-      <div className="editor-page">
-        {/* <Toolbar /> */}
+    <EditorConfigProvider>
+      <LexicalComposer initialConfig={initialConfig}>
+        <div className="editor-page">
+          <div className="editor-inner">
+            <RichTextPlugin
+              contentEditable={<ContentEditable className="editor-input" />}
+              placeholder={
+                <div className="editor-placeholder">
+                  Create a post. Use @ for members and # for channels
+                </div>
+              }
+              ErrorBoundary={LexicalErrorBoundary}
+            />
 
-        {/* <input
-          className="editor-title"
-          placeholder="Enter title (optional)"
-        /> */}
+            <HistoryPlugin />
+            <ListPlugin />
+            <LinkPlugin />
+            <HashtagPlugin />
 
-        <div className="editor-inner">
-          <RichTextPlugin
-            contentEditable={<ContentEditable className="editor-input" />}
-            placeholder={
-              <div className="editor-placeholder">
-                Create a post. Use @ for members and # for channels
-              </div>
-            }
-            ErrorBoundary={LexicalErrorBoundary}
-          />
-          <HistoryPlugin />
-          <ListPlugin />
-          <LinkPlugin />
-          <HashtagPlugin />
-          <MentionsPlugin />
-          <EditorBridgePlugin />
-          <SelectionSyncPlugin />
+            {/* ================= Beautiful Mentions ================= */}
+            <BeautifulMentionsPlugin
+              triggers={["@"]}       // listen for "@" mentions
+              onSearch={onSearchMentions} // async handler
+            />
+
+            <EditorBridgePlugin />
+            <SelectionSyncPlugin />
+          </div>
         </div>
-      </div>
-    </LexicalComposer>
+      </LexicalComposer>
     </EditorConfigProvider>
   );
 }
