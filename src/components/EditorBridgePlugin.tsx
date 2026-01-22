@@ -41,6 +41,14 @@ export default function EditorBridgePlugin() {
   const [editor] = useLexicalComposerContext();
 
   useEffect(() => {
+    // tell React Native that Lexical is ready
+    //@ts-ignore
+    window.ReactNativeWebView?.postMessage(
+      JSON.stringify({ type: "editor-ready" })
+    );
+  }, []);
+
+  useEffect(() => {
     function handleMessage(event: MessageEvent) {
       let data: EditorCommand;
 
