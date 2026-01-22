@@ -70,6 +70,18 @@ const onSearchMentions: any = async (trigger: string, query: string) => {
   }
 }
 
+const MobileMenuItem = ({ item, selected, select }: any) => {
+  return (
+    <div
+      style={{ padding: 8 }}
+      onTouchStart={() => select(item)}
+      onClick={() => select(item)}
+    >
+      {item.value}
+    </div>
+  );
+}
+
 export default function Editor() {
   return (
     <EditorConfigProvider>
@@ -95,6 +107,7 @@ export default function Editor() {
             <BeautifulMentionsPlugin
               triggers={["@"]}       // listen for "@" mentions
               onSearch={onSearchMentions} // async handler
+              menuItemComponent={MobileMenuItem}
             />
 
             <EditorBridgePlugin />
