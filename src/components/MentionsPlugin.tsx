@@ -19,7 +19,7 @@ const MentionsPlugin = () => {
       if (!mentionsUrl || !accessToken) return [];
   
       const res = await axios.get(
-        `${mentionsUrl}?q=${encodeURIComponent(query)}`,
+        `${mentionsUrl}?search=${encodeURIComponent(query)}`,
         {
           headers: { Authorization: `Bearer ${accessToken}` },
         }
