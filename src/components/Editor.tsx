@@ -10,19 +10,12 @@ import { ListItemNode, ListNode } from "@lexical/list";
 import { LinkNode } from "@lexical/link";
 import { HashtagNode } from "@lexical/hashtag";
 import { HashtagPlugin } from "@lexical/react/LexicalHashtagPlugin";
-
-import {
-  BeautifulMentionsPlugin,
-  BeautifulMentionNode,
-} from "lexical-beautiful-mentions"; // ✅ only these exports exist :contentReference[oaicite:2]{index=2}
-
 import { lexicalTheme } from "../utils/lexicalTheme";
 import { EditorConfigProvider } from "./EditorConfigContext";
 import SelectionSyncPlugin from "./SelectionSyncPlugin";
 import EditorBridgePlugin from "./EditorBridgePlugin";
-
-import axios from "axios";
-import { getEditorRuntimeConfig } from "../utils/editorRuntimeConfig";
+import MentionsPlugin from "./MentionsPlugin";
+import { BeautifulMentionNode } from "lexical-beautiful-mentions";
 
 const initialConfig = {
   namespace: "LexicalEditor",
@@ -39,50 +32,6 @@ const initialConfig = {
     BeautifulMentionNode, // register the beautiful mention node
   ],
 };
-
-/**
- * onSearch handler for beautiful mentions
- * @param trigger the trigger character, e.g. "@"
- * @param query the text after the trigger
- */
-const onSearchMentions: any = async (trigger: string, query: string) => {
-  console.log(trigger)
-  try {
-    const { mentionsUrl, accessToken } = getEditorRuntimeConfig();
-    if (!mentionsUrl || !accessToken) return [];
-
-    const res = await axios.get(
-      `${mentionsUrl}?q=${encodeURIComponent(query)}`,
-      {
-        headers: { Authorization: `Bearer ${accessToken}` },
-      }
-    );
-
-    // The plugin expects an array of items with `value` and optional `data`.
-    return (
-      res.data?.data?.map((m: any) => ({
-        value: m.user.full_name,
-        data: m.user,
-      })) ?? []
-    );
-  } catch (err) {
-    console.error("mentions search failed", err);
-    return [];
-  }
-}
-
-const MobileMenuItem = ({ item, selected, select }: any) => {
-  console.log(selected)
-  return (
-    <div
-      style={{ padding: 8 }}
-      onTouchStart={() => select(item)}
-      onClick={() => select(item)}
-    >
-      {item.value}
-    </div>
-  );
-}
 
 export default function Editor() {
   return (
@@ -104,14 +53,7 @@ export default function Editor() {
             <ListPlugin />
             <LinkPlugin />
             <HashtagPlugin />
-
-            {/* ================= Beautiful Mentions ================= */}
-            <BeautifulMentionsPlugin
-              triggers={["@"]}       // listen for "@" mentions
-              onSearch={onSearchMentions} // async handler
-              menuItemComponent={MobileMenuItem}
-            />
-
+            <MentionsPlugin />
             <EditorBridgePlugin />
             <SelectionSyncPlugin />
           </div>

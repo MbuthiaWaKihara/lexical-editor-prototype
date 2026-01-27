@@ -133,3 +133,80 @@ body {
 .lexical-text-strikethrough {
   text-decoration: line-through;
 }
+
+/* ===================== */
+/* Inline Mention Style  */
+/* ===================== */
+
+.beautiful-mention {
+  display: inline-block;
+  padding: 2px 6px;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 0.95em;
+  line-height: 1.2;
+  cursor: pointer;
+  background: linear-gradient(135deg, #e0f2ff, #f0f9ff);
+  color: #0369a1;
+  border: 1px solid rgba(3, 105, 161, 0.15);
+  transition: all 0.15s ease;
+}
+
+.beautiful-mention:hover {
+  background: linear-gradient(135deg, #bae6fd, #e0f2ff);
+  border-color: rgba(3, 105, 161, 0.35);
+}
+
+/* Optional dark mode */
+.dark .beautiful-mention {
+  background: rgba(56, 189, 248, 0.15);
+  color: #7dd3fc;
+  border-color: rgba(125, 211, 252, 0.25);
+}
+
+/* ===================== */
+/* Mention Dropdown Menu */
+/* ===================== */
+
+.beautiful-mentions-menu {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+  padding: 6px;
+  min-width: 240px;
+  max-height: 280px;
+  overflow-y: auto;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  backdrop-filter: blur(6px);
+}
+
+/* Menu items */
+.beautiful-mentions-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.12s ease, transform 0.05s ease;
+}
+
+.beautiful-mentions-menu-item:hover {
+  background: #f1f5f9;
+}
+
+/* Active (keyboard selection) */
+.beautiful-mentions-menu-item-active {
+  background: #e0f2fe;
+  color: #0369a1;
+  transform: scale(1.01);
+}
+
+/* Avatar styling (if your MentionMenuItem renders an avatar) */
+.beautiful-mentions-menu-item img {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+}

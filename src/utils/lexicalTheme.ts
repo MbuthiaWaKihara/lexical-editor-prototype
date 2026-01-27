@@ -5,4 +5,5 @@ export const lexicalTheme = {
     underline: "lexical-text-underline",
     strikethrough: "lexical-text-strikethrough",
   },
+  mention: "beautiful-mention",
 };
