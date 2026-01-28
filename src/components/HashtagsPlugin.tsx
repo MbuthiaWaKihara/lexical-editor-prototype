@@ -1,7 +1,7 @@
 import {
   BeautifulMentionsPlugin,
 } from "lexical-beautiful-mentions";
-import MentionMenuItem from "./MentionMenuItem";
+import HashtagMenuItem from "./HashtagMenuItem";
 import { getEditorRuntimeConfig } from '../utils/editorRuntimeConfig';
 import axios from 'axios';
 
@@ -42,7 +42,7 @@ const HashtagsPlugin = () => {
     <BeautifulMentionsPlugin
       triggers={["#"]}       // listen for "#" mentions
       onSearch={onSearchHashtags} // async handler
-      menuItemComponent={MentionMenuItem}
+      menuItemComponent={HashtagMenuItem}
     />
   )
 }
