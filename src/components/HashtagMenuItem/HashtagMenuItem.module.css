@@ -1,0 +1,6 @@
+.item_container {
+    width: fit-content;
+    min-width: 200px;
+    cursor: pointer;
+    margin: 10px 0;
+}

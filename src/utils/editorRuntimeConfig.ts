@@ -1,4 +1,5 @@
 export type EditorRuntimeConfig = {
+  hashtagsUrl?: string;
   mentionsUrl?: string;
   accessToken?: string;
 };

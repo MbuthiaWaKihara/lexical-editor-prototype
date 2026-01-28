@@ -8,14 +8,13 @@ import { LexicalErrorBoundary } from "@lexical/react/LexicalErrorBoundary";
 import { HeadingNode } from "@lexical/rich-text";
 import { ListItemNode, ListNode } from "@lexical/list";
 import { LinkNode } from "@lexical/link";
-import { HashtagNode } from "@lexical/hashtag";
-import { HashtagPlugin } from "@lexical/react/LexicalHashtagPlugin";
 import { lexicalTheme } from "../utils/lexicalTheme";
 import { EditorConfigProvider } from "./EditorConfigContext";
 import SelectionSyncPlugin from "./SelectionSyncPlugin";
 import EditorBridgePlugin from "./EditorBridgePlugin";
 import MentionsPlugin from "./MentionsPlugin";
 import { BeautifulMentionNode } from "lexical-beautiful-mentions";
+import HashtagsPlugin from "./HashtagsPlugin";
 
 const initialConfig = {
   namespace: "LexicalEditor",
@@ -28,7 +27,6 @@ const initialConfig = {
     ListNode,
     ListItemNode,
     LinkNode,
-    HashtagNode,
     BeautifulMentionNode, // register the beautiful mention node
   ],
 };
@@ -52,7 +50,7 @@ export default function Editor() {
             <HistoryPlugin />
             <ListPlugin />
             <LinkPlugin />
-            <HashtagPlugin />
+            <HashtagsPlugin />
             <MentionsPlugin />
             <EditorBridgePlugin />
             <SelectionSyncPlugin />
