@@ -50,8 +50,8 @@ export default function Editor() {
             <HistoryPlugin />
             <ListPlugin />
             <LinkPlugin />
-            <HashtagsPlugin />
             <MentionsPlugin />
+            <HashtagsPlugin />
             <EditorBridgePlugin />
             <SelectionSyncPlugin />
           </div>
