@@ -18,13 +18,14 @@ const HashtagsPlugin = () => {
       const { hashtagsUrl, accessToken } = getEditorRuntimeConfig();
       if (!hashtagsUrl || !accessToken) return [];
   
-      console.log('final url: ', `${hashtagsUrl}&search=${encodeURIComponent(query)}`)
       const res = await axios.get(
         `${hashtagsUrl}&search=${encodeURIComponent(query)}`,
         {
           headers: { Authorization: `Bearer ${accessToken}` },
         }
       );
+
+      console.log('res: ', res);
   
       // The plugin expects an array of items with `value` and optional `data`.
       return (
