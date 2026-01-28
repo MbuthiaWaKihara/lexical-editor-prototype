@@ -18,6 +18,7 @@ const HashtagsPlugin = () => {
       const { hashtagsUrl, accessToken } = getEditorRuntimeConfig();
       if (!hashtagsUrl || !accessToken) return [];
   
+      console.log('final url: ', `${hashtagsUrl}&search=${encodeURIComponent(query)}`)
       const res = await axios.get(
         `${hashtagsUrl}&search=${encodeURIComponent(query)}`,
         {
