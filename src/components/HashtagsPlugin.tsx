@@ -19,7 +19,7 @@ const HashtagsPlugin = () => {
       if (!hashtagsUrl || !accessToken) return [];
   
       const res = await axios.get(
-        `${hashtagsUrl}?search=${encodeURIComponent(query)}`,
+        `${hashtagsUrl}&search=${encodeURIComponent(query)}`,
         {
           headers: { Authorization: `Bearer ${accessToken}` },
         }
