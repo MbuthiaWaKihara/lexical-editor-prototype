@@ -12,7 +12,7 @@ const HashtagsPlugin = () => {
    * @param trigger the trigger character, e.g. "@"
    * @param query the text after the trigger
    */
-  const onSearchMentions: any = async (trigger: string, query: string) => {
+  const onSearchHashtags: any = async (trigger: string, query: string) => {
     console.log('EVANS: ', trigger)
     try {
       const { hashtagsUrl, accessToken } = getEditorRuntimeConfig();
@@ -40,8 +40,8 @@ const HashtagsPlugin = () => {
   
   return (
     <BeautifulMentionsPlugin
-      triggers={["#"]}       // listen for "@" mentions
-      onSearch={onSearchMentions} // async handler
+      triggers={["#"]}       // listen for "#" mentions
+      onSearch={onSearchHashtags} // async handler
       menuItemComponent={MentionMenuItem}
     />
   )
