@@ -24,12 +24,10 @@ const HashtagsPlugin = () => {
           headers: { Authorization: `Bearer ${accessToken}` },
         }
       );
-
-      console.log('res: ', res);
   
       // The plugin expects an array of items with `value` and optional `data`.
       return (
-        res.data?.data?.map((m: any) => ({
+        res.data?.data?.data?.map((m: any) => ({
           value: m.name,
           data: m,
         })) ?? []
