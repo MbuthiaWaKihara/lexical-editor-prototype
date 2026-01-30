@@ -1,3 +1,4 @@
+import React from 'react';
 import { LexicalComposer } from "@lexical/react/LexicalComposer";
 import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 import { ContentEditable } from "@lexical/react/LexicalContentEditable";
@@ -33,6 +34,19 @@ const initialConfig = {
 };
 
 export default function Editor() {
+
+  const [editorPlaceholder, setEditorPlaceholder] = React.useState<string>("");
+
+  React.useEffect(() => {
+    setTimeout(() => {
+      const { placeholder } = getEditorRuntimeConfig();
+
+      if(placeholder) {
+        setEditorPlaceholder(placeholder);
+      }
+    }, 1000);
+  }, []);
+
   return (
     <EditorConfigProvider>
       <LexicalComposer initialConfig={initialConfig}>
@@ -42,7 +56,7 @@ export default function Editor() {
               contentEditable={<ContentEditable className="editor-input" />}
               placeholder={
                 <div className="editor-placeholder">
-                  {getEditorRuntimeConfig().placeholder}
+                  {editorPlaceholder}
                 </div>
               }
               ErrorBoundary={LexicalErrorBoundary}
