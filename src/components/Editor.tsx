@@ -44,7 +44,7 @@ export default function Editor() {
       if(placeholder) {
         setEditorPlaceholder(placeholder);
       }
-    }, 1000);
+    }, 500);
   }, []);
 
   return (
