@@ -15,6 +15,7 @@ import EditorBridgePlugin from "./EditorBridgePlugin";
 import MentionsPlugin from "./MentionsPlugin";
 import { BeautifulMentionNode } from "lexical-beautiful-mentions";
 import HashtagsPlugin from "./HashtagsPlugin";
+import { getEditorRuntimeConfig } from "../utils/editorRuntimeConfig";
 
 const initialConfig = {
   namespace: "LexicalEditor",
@@ -41,7 +42,7 @@ export default function Editor() {
               contentEditable={<ContentEditable className="editor-input" />}
               placeholder={
                 <div className="editor-placeholder">
-                  Create a post. Use @ for members and # for channels
+                  {getEditorRuntimeConfig().placeholder}
                 </div>
               }
               ErrorBoundary={LexicalErrorBoundary}

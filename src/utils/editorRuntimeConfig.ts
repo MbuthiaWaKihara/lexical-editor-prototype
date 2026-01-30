@@ -2,6 +2,7 @@ export type EditorRuntimeConfig = {
   hashtagsUrl?: string;
   mentionsUrl?: string;
   accessToken?: string;
+  placeholder?: string;
 };
 
 let runtimeConfig: EditorRuntimeConfig = {};
