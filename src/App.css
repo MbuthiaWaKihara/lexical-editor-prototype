@@ -210,3 +210,33 @@ body {
   border-radius: 50%;
   object-fit: cover;
 }
+
+.editor-input {
+  line-height: 1.6;
+}
+
+.editor-input > * {
+  margin: 0;
+}
+
+.editor-input > * + * {
+  margin-top: 1em;
+}
+
+.editor-input p:has(br:only-child) {
+  margin: 0;
+  margin-block-start: 0 !important;
+  margin-block-end:  0 !important;
+  margin-inline-start: 0 !important;
+  margin-inline-end: 0 !important;
+  /* height: 0 !important; */
+}
+
+.editor-input p:empty {
+  margin: 0;
+  margin-block-start: 0 !important;
+  margin-block-end:  0 !important;
+  margin-inline-start: 0 !important;
+  margin-inline-end: 0 !important;
+  /* height: 0 !important; */
+}
