@@ -1,3 +1,12 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  overflow-x: hidden;  /* prevent horizontal scroll */
+  overflow-y: auto;    /* only scroll when content overflows */
+}
+
 body {
   align-items: flex-start;
 }
@@ -6,28 +15,6 @@ body {
 .editor-page {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   min-width: 500px;
-}
-
-/* Toolbar */
-.toolbar {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-  padding-bottom: 16px;
-}
-
-.toolbar button {
-  background: none;
-  border: none;
-  padding: 6px;
-  cursor: pointer;
-  font-size: 15px;
-  color: #222;
-  border-radius: 6px;
-}
-
-.toolbar button:hover {
-  background: #f2f2f2;
 }
 
 /* Title input */
@@ -239,4 +226,21 @@ body {
   margin-inline-start: 0 !important;
   margin-inline-end: 0 !important;
   /* height: 0 !important; */
+}
+
+.editor-inner {
+  position: relative;
+  width: 100%;
+  height: auto;       /* shrink to content */
+  min-height: 100px;  /* optional default starting height */
+}
+
+.editor-input {
+  min-height: 100px;  /* initial typing area */
+  height: auto;       /* grow as user types */
+  max-height: 100%;   /* don't overflow viewport unless content is bigger */
+  outline: none;
+  font-size: 16px;
+  line-height: 1.6;
+  overflow: visible;  /* allow text to wrap naturally */
 }
