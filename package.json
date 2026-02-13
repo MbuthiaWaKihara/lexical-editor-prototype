@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emoji-mart/data": "^1.2.1",
     "@lexical/hashtag": "^0.39.0",
     "@lexical/html": "^0.39.0",
     "@lexical/link": "^0.39.0",
@@ -19,6 +20,7 @@
     "@lexical/selection": "^0.39.0",
     "@lexical/utils": "^0.39.0",
     "axios": "^1.13.2",
+    "emoji-mart": "^5.6.0",
     "lexical": "^0.39.0",
     "lexical-beautiful-mentions": "^0.1.48",
     "react": "^19.2.0",

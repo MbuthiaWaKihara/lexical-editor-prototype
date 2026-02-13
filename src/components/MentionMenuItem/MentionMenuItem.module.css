@@ -1,6 +1,41 @@
 .item_container {
-    width: fit-content;
-    min-width: 200px;
+    width: 100%;
     cursor: pointer;
-    margin: 10px 0;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.item_image {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 50%;
+    min-width: 40px;
+}
+
+.item_text {
+    margin: 0;
+    padding: 0;
+    color: #333333;
+    font-size: 15px;
+    line-height: 18px;
+    margin-left: 10px;
+}
+
+.item_no_image_container {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+.item_no_image_text {
+    margin: 0;
+    padding: 0;
+    font-size: 12px;
+    line-height: 15px;
+    color: #ffffff;
 }

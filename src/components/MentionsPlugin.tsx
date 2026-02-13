@@ -4,6 +4,7 @@ import {
 import MentionMenuItem from "./MentionMenuItem";
 import { getEditorRuntimeConfig } from '../utils/editorRuntimeConfig';
 import axios from 'axios';
+import MentionMenuContainer from "./MentionMenuContainer";
 
 const MentionsPlugin = () => {
 
@@ -43,6 +44,7 @@ const MentionsPlugin = () => {
       triggers={["@"]}       // listen for "@" mentions
       onSearch={onSearchMentions} // async handler
       menuItemComponent={MentionMenuItem}
+      menuComponent={MentionMenuContainer}
     />
   )
 }

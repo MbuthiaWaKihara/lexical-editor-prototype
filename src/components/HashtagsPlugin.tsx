@@ -4,6 +4,7 @@ import {
 import HashtagMenuItem from "./HashtagMenuItem";
 import { getEditorRuntimeConfig } from '../utils/editorRuntimeConfig';
 import axios from 'axios';
+import HashtagMenuContainer from "./HashtagMenuContainer";
 
 const HashtagsPlugin = () => {
 
@@ -43,6 +44,7 @@ const HashtagsPlugin = () => {
       triggers={["#"]}       // listen for "#" mentions
       onSearch={onSearchHashtags} // async handler
       menuItemComponent={HashtagMenuItem}
+      menuComponent={HashtagMenuContainer}
     />
   )
 }
