@@ -87,12 +87,21 @@ export default function EditorBridgePlugin() {
         case "bold":
         case "italic":
         case "underline":
-          editor.dispatchCommand(FORMAT_TEXT_COMMAND, data.type);
-          break;
-
         case "strike":
-          editor.dispatchCommand(FORMAT_TEXT_COMMAND, "strikethrough");
-          break;
+          editor.update(() => {
+            const selection = $getSelection();
+            if (!$isRangeSelection(selection)) return;
+
+            const map: Record<string, any> = {
+              bold: "bold",
+              italic: "italic",
+              underline: "underline",
+              strike: "strikethrough",
+            };
+
+            selection.formatText(map[data.type]);
+          });
+          return;
 
         // ===== HEADINGS =====
         case "h1":
