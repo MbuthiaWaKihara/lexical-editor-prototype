@@ -4,6 +4,7 @@ export const lexicalTheme = {
     italic: "lexical-text-italic",
     underline: "lexical-text-underline",
     strikethrough: "lexical-text-strikethrough",
+    boldItalic: "lexical-text-bolditalic",
   },
   mention: "beautiful-mention",
 };

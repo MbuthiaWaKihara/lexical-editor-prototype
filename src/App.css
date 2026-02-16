@@ -121,6 +121,11 @@ body {
   text-decoration: line-through;
 }
 
+.lexical-text-bolditalic {
+  font-weight: bold;
+  font-style: italic !important;
+}
+
 /* ===================== */
 /* Inline Mention Style  */
 /* ===================== */
