@@ -75,7 +75,17 @@ export default function EditorBridgePlugin() {
           setEditorRuntimeConfig(data.payload);
           return;
         case "focus-editor":
+          editor.update(() => {
+          const root = $getRoot();
+          if (root.getFirstChild() === null) {
+            root.append($createParagraphNode());
+          }
+        });
+        
+        // Give the DOM a tick
+        setTimeout(() => {
           editor.focus();
+        }, 50);
           return;
         // ===== TEXT STYLES =====
         case "bold":
