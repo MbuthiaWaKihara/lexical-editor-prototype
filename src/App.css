@@ -121,8 +121,7 @@ body {
   text-decoration: line-through;
 }
 
-.lexical-text-bolditalic {
-  font-weight: bold;
+.lexical-text-italic {
   font-style: italic !important;
 }
 
