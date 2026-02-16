@@ -36,7 +36,8 @@ type EditorCommand =
       };
     }
   | { type: "clear-editor" }
-  | { type: "focus-editor" };
+  | { type: "focus-editor" }
+  | { type: "blur-editor" };
 
 export default function EditorBridgePlugin() {
   const [editor] = useLexicalComposerContext();
@@ -77,6 +78,9 @@ export default function EditorBridgePlugin() {
         case "focus-editor":
           (document.querySelector('.editor-input') as HTMLInputElement).focus();
           return;
+        case "blur-editor":
+            (document.querySelector('.editor-input') as HTMLInputElement).blur();
+            return;
         // ===== TEXT STYLES =====
         case "bold":
         case "italic":
