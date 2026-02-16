@@ -35,7 +35,8 @@ type EditorCommand =
         accessToken?: string;
       };
     }
-  | { type: "clear-editor" };
+  | { type: "clear-editor" }
+  | { type: "focus-editor" };
 
 export default function EditorBridgePlugin() {
   const [editor] = useLexicalComposerContext();
@@ -72,6 +73,9 @@ export default function EditorBridgePlugin() {
         case "init-config":
           console.log('init-config payload: ', data.payload);
           setEditorRuntimeConfig(data.payload);
+          return;
+        case "focus-editor":
+          editor.focus();
           return;
         // ===== TEXT STYLES =====
         case "bold":
