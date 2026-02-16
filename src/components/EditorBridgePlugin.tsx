@@ -15,6 +15,7 @@ import { $createHeadingNode } from "@lexical/rich-text";
 import { $generateHtmlFromNodes } from "@lexical/html";
 import { useEffect } from "react";
 import { setEditorRuntimeConfig } from "../utils/editorRuntimeConfig";
+import { $setBlocksType } from "@lexical/selection";
 
 type EditorCommand =
   | { type: "bold" }
@@ -37,7 +38,8 @@ type EditorCommand =
     }
   | { type: "clear-editor" }
   | { type: "focus-editor" }
-  | { type: "blur-editor" };
+  | { type: "blur-editor" }
+  | { type: "remove-heading" };
 
 export default function EditorBridgePlugin() {
   const [editor] = useLexicalComposerContext();
@@ -100,11 +102,18 @@ export default function EditorBridgePlugin() {
             const selection = $getSelection();
             if (!$isRangeSelection(selection)) return;
 
-            const headingNode = $createHeadingNode(data.type);
-            selection.insertNodes([headingNode]);
-            headingNode.select();
+            $setBlocksType(selection, () => $createHeadingNode(data.type));
           });
-          break;
+          return;
+
+        case "remove-heading":
+          editor.update(() => {
+            const selection = $getSelection();
+            if (!$isRangeSelection(selection)) return;
+
+            $setBlocksType(selection, () => $createParagraphNode());
+          });
+          return;
 
         // ===== LISTS =====
         case "unordered-list":
