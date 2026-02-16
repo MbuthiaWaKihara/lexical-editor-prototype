@@ -1,6 +1,6 @@
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import {
-  FORMAT_TEXT_COMMAND,
+  // FORMAT_TEXT_COMMAND,
   $getSelection,
   $isRangeSelection,
   $getRoot,
