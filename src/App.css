@@ -15,6 +15,7 @@ body {
 .editor-page {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   min-width: 500px;
+  border: 1px solid red;
 }
 
 /* Title input */
