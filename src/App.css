@@ -11,10 +11,13 @@ body {
   align-items: flex-start;
 }
 
+#root {
+  width: 100%;
+}
+
 /* Page container */
 .editor-page {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  min-width: 500px;
   border: 1px solid red;
 }
 
