@@ -54,7 +54,14 @@ export default function Editor() {
         <div className="editor-page">
           <div className="editor-inner">
             <RichTextPlugin
-              contentEditable={<ContentEditable className="editor-input" />}
+              contentEditable={
+                <ContentEditable 
+                className="editor-input" 
+                spellCheck={true}
+                autoCorrect="on"
+                autoCapitalize="sentences"
+                />
+              }
               placeholder={
                 <div className="editor-placeholder">
                   {editorPlaceholder}
