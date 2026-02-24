@@ -19,6 +19,7 @@ body {
 /* Page container */
 .editor-page {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: transparent;
 }
 
 /* Title input */
