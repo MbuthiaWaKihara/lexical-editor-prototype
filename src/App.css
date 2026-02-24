@@ -5,6 +5,7 @@ html, body {
   width: 100%;
   overflow-x: hidden;  /* prevent horizontal scroll */
   overflow-y: auto;    /* only scroll when content overflows */
+  background-color: transparent;
 }
 
 body {
