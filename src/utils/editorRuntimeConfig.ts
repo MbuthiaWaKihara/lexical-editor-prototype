@@ -3,7 +3,6 @@ export type EditorRuntimeConfig = {
   mentionsUrl?: string;
   accessToken?: string;
   placeholder?: string;
-  css?: string;
 };
 
 let runtimeConfig: EditorRuntimeConfig = {};

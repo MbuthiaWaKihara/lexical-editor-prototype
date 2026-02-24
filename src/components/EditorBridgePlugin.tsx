@@ -34,13 +34,16 @@ type EditorCommand =
       payload: {
         mentionsUrl?: string;
         accessToken?: string;
-        css?: string;
       };
     }
   | { type: "clear-editor" }
   | { type: "focus-editor" }
   | { type: "blur-editor" }
-  | { type: "remove-heading" };
+  | { type: "remove-heading" }
+  | { 
+      type: "inject-css",
+      css?: string;
+    };
 
 export default function EditorBridgePlugin() {
   const [editor] = useLexicalComposerContext();
@@ -64,6 +67,15 @@ export default function EditorBridgePlugin() {
       }
 
       switch (data.type) {
+        case "inject-css":
+            const STYLE_ID = "rn-dynamic-style";
+
+          const styleTag: any = document.getElementById(STYLE_ID) as HTMLStyleElement;
+
+          if(styleTag) {
+            styleTag.innerHTML = `${styleTag.innerHTML}${data.css}`;
+          }
+          return;
         case "clear-editor":
           editor.update(() => {
             const root = $getRoot();
