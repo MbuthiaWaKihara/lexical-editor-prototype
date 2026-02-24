@@ -57,7 +57,11 @@ export default function Editor() {
 
   return (
     <>
-    {dynamicCss && <style>{dynamicCss}</style>}
+    <style>{`
+      *{background-color: transparent;}${
+        dynamicCss ? dynamicCss : ''
+      }
+    `}</style>
     <EditorConfigProvider>
       <LexicalComposer initialConfig={initialConfig}>
         <div className="editor-page">
