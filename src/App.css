@@ -17,6 +17,10 @@ body {
   background-color: transparent;
 }
 
+#root > div {
+  background-color: transparent;
+}
+
 /* Page container */
 .editor-page {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
@@ -40,6 +44,7 @@ body {
 /* Editor wrapper */
 .editor-inner {
   position: relative;
+  background-color: transparent;
   /* margin-top: 8px; */
 }
 
