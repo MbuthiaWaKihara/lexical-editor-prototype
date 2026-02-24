@@ -37,18 +37,27 @@ const initialConfig = {
 export default function Editor() {
 
   const [editorPlaceholder, setEditorPlaceholder] = React.useState<string>("");
+  const [dynamicCss, setDynamicCss] = React.useState<string>("");
 
   React.useEffect(() => {
-    setTimeout(() => {
-      const { placeholder } = getEditorRuntimeConfig();
+    const timeout = setTimeout(() => {
+    const { placeholder, css } = getEditorRuntimeConfig();
 
-      if(placeholder) {
-        setEditorPlaceholder(placeholder);
-      }
-    }, 500);
+    if (placeholder) {
+      setEditorPlaceholder(placeholder);
+    }
+
+    if (css) {
+      setDynamicCss(css);
+    }
+  }, 500);
+
+  return () => clearTimeout(timeout);
   }, []);
 
   return (
+    <>
+    {dynamicCss && <style>{dynamicCss}</style>}
     <EditorConfigProvider>
       <LexicalComposer initialConfig={initialConfig}>
         <div className="editor-page">
@@ -82,5 +91,6 @@ export default function Editor() {
         </div>
       </LexicalComposer>
     </EditorConfigProvider>
+    </>
   );
 }

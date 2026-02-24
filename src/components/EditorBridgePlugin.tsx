@@ -34,6 +34,7 @@ type EditorCommand =
       payload: {
         mentionsUrl?: string;
         accessToken?: string;
+        css?: string;
       };
     }
   | { type: "clear-editor" }
