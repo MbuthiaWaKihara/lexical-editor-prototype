@@ -41,18 +41,16 @@ export default function Editor() {
 
   React.useEffect(() => {
     const timeout = setTimeout(() => {
-      const { placeholder } = getEditorRuntimeConfig();
+      const { placeholder, css } = getEditorRuntimeConfig();
 
       if (placeholder) {
         setEditorPlaceholder(placeholder);
       }
-    }, 500);
 
-    const { css } = getEditorRuntimeConfig();
-
-    if(css) {
-      setDynamicCss(css);
-    }
+      if(css) {
+        setDynamicCss(css);
+      }
+    }, 0);
 
     return () => clearTimeout(timeout);
   }, []);
