@@ -80,6 +80,7 @@ export default function EditorBridgePlugin() {
           setEditorRuntimeConfig(data.payload);
           return;
         case "focus-editor":
+          console.log('test reach: ', 'it reached');
           console.log('editor input element: ', document.querySelector('.editor-input') as HTMLInputElement);
           (document.querySelector('.editor-input') as HTMLInputElement).focus();
           return;
