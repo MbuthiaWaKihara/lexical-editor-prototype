@@ -76,7 +76,7 @@ export default function EditorBridgePlugin() {
           return;
         // ===== RUNTIME CONFIG (NEW) =====
         case "init-config":
-          console.log('init-config payload::: ', data.payload);
+          console.log('init-config payload: ', data.payload);
           setEditorRuntimeConfig(data.payload);
           return;
         case "focus-editor":
