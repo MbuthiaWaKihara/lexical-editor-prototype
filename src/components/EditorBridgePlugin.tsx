@@ -80,8 +80,8 @@ export default function EditorBridgePlugin() {
           setEditorRuntimeConfig(data.payload);
           return;
         case "focus-editor":
-          (document.querySelector('.editor-input') as HTMLInputElement).focus();
           console.log('editor input element: ', document.querySelector('.editor-input') as HTMLInputElement);
+          (document.querySelector('.editor-input') as HTMLInputElement).focus();
           return;
         case "blur-editor":
             (document.querySelector('.editor-input') as HTMLInputElement).blur();
