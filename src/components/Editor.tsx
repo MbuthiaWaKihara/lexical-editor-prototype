@@ -70,7 +70,7 @@ export default function Editor() {
                 <ContentEditable 
                 className="editor-input" 
                 spellCheck={true}
-                autoCorrect="on"
+                // autoCorrect="on"
                 autoCapitalize="sentences"
                 />
               }
