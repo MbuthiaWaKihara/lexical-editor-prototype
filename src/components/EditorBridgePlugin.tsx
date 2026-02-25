@@ -33,7 +33,9 @@ type EditorCommand =
       type: "init-config";
       payload: {
         mentionsUrl?: string;
+        hashtagsUrl?: string;
         accessToken?: string;
+        css?: string;
       };
     }
   | { type: "clear-editor" }
