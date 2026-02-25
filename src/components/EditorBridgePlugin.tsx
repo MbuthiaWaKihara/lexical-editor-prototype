@@ -41,6 +41,8 @@ type EditorCommand =
   | { type: "clear-editor" }
   | { type: "focus-editor" }
   | { type: "blur-editor" }
+  | { type: "focus-editor-element" }
+  | { type: "blur-editor-element" }
   | { type: "remove-heading" }
 
 export default function EditorBridgePlugin() {
@@ -80,14 +82,24 @@ export default function EditorBridgePlugin() {
           setEditorRuntimeConfig(data.payload);
           return;
         case "focus-editor":
-          const editorInputElement = document.querySelector('.editor-input') as HTMLInputElement;
-
-          if(editorInputElement) {
-            editorInputElement.focus();
-          }
+          editor.focus();
           return;
         case "blur-editor":
-            (document.querySelector('.editor-input') as HTMLInputElement).blur();
+          editor.blur();
+          return;
+        case "focus-editor-element":
+          const editorInputElementFocus = document.querySelector('.editor-input') as HTMLInputElement;
+
+          if(editorInputElementFocus) {
+            editorInputElementFocus.focus();
+          }
+          return;
+        case "blur-editor-element":
+            const editorInputElementBlur = document.querySelector('.editor-input') as HTMLInputElement;
+
+            if(editorInputElementBlur) {
+              editorInputElementBlur.blur();
+            }
             return;
         // ===== TEXT STYLES =====
         case "bold":
