@@ -82,7 +82,14 @@ export default function EditorBridgePlugin() {
           setEditorRuntimeConfig(data.payload);
           return;
         case "focus-editor":
-          editor.focus();
+          editor.update(() => {
+            const root = $getRoot();
+            root.selectEnd();
+          });
+
+          setTimeout(() => {
+            editor.focus();
+          }, 0);
           return;
         case "blur-editor":
           editor.blur();
