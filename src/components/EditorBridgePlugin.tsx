@@ -80,9 +80,15 @@ export default function EditorBridgePlugin() {
           setEditorRuntimeConfig(data.payload);
           return;
         case "focus-editor":
-          console.log('test reach: ', 'it reached');
-          console.log('editor input element: ', document.querySelector('.editor-input') as HTMLInputElement);
-          (document.querySelector('.editor-input') as HTMLInputElement).focus();
+          try {
+            const editorInputElement = document.querySelector('.editor-input') as HTMLInputElement;
+
+            if(editorInputElement) {
+              editorInputElement.focus();
+            }
+          } catch(error) {
+            console.log('Error: ', error);
+          }
           return;
         case "blur-editor":
             (document.querySelector('.editor-input') as HTMLInputElement).blur();
