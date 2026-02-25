@@ -54,7 +54,7 @@ body {
 
 /* ContentEditable */
 .editor-input {
-  min-height: 200px;
+  /* min-height: 200px; */
   outline: none;
   font-size: 16px;
   line-height: 1.6;
