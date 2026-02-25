@@ -81,6 +81,7 @@ export default function EditorBridgePlugin() {
           return;
         case "focus-editor":
           (document.querySelector('.editor-input') as HTMLInputElement).focus();
+          console.log(document.querySelector('.editor-input') as HTMLInputElement);
           return;
         case "blur-editor":
             (document.querySelector('.editor-input') as HTMLInputElement).blur();
