@@ -229,23 +229,21 @@ body {
   margin-top: 1em;
 }
 
-.editor-input p:has(br:only-child) {
+/* .editor-input p:has(br:only-child) {
   margin: 0;
   margin-block-start: 0 !important;
   margin-block-end:  0 !important;
   margin-inline-start: 0 !important;
   margin-inline-end: 0 !important;
-  /* height: 0 !important; */
-}
+} */
 
-.editor-input p:empty {
+/* .editor-input p:empty {
   margin: 0;
   margin-block-start: 0 !important;
   margin-block-end:  0 !important;
   margin-inline-start: 0 !important;
   margin-inline-end: 0 !important;
-  /* height: 0 !important; */
-}
+} */
 
 .editor-inner {
   position: relative;
