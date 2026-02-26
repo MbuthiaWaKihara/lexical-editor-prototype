@@ -246,8 +246,6 @@ body {
 .editor-inner {
   position: relative;
   width: 100%;
-  height: auto;       /* shrink to content */
-  min-height: 100px;  /* optional default starting height */
 }
 
 .editor-input {
@@ -257,5 +255,4 @@ body {
   outline: none;
   font-size: 16px;
   line-height: 1.6;
-  overflow: visible;  /* allow text to wrap naturally */
 }
