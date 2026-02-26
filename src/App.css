@@ -6,7 +6,9 @@ html, body {
   margin: 0;
   padding: 0;
   width: 100%;
+  height: 100%;
   background-color: transparent;
+  overflow: hidden;
 }
 
 body {
@@ -15,9 +17,8 @@ body {
 
 #root {
   width: 100%;
-  height: fit-content;
-  max-height: 100%;
   background-color: transparent;
+  height: 100%;
   overflow-y: scroll;
 }
 
