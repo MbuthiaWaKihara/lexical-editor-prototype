@@ -11,13 +11,15 @@ html, body {
 
 body {
   display: block;
-  overflow-y: scroll;
   border: 1px solid pink;
 }
 
 #root {
   width: 100%;
+  height: fit-content;
+  max-height: 100%;
   background-color: transparent;
+  overflow-y: scroll;
 }
 
 #root > div {
