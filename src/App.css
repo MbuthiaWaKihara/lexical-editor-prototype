@@ -7,7 +7,7 @@ html, body {
   padding: 0;
   width: 100%;
   background-color: transparent;
-  overflow: hidden;
+  overflow-y: scroll;
 }
 
 body {
@@ -47,9 +47,6 @@ body {
 .editor-inner {
   position: relative;
   background-color: transparent;
-  overflow-y: auto;   /* ✅ scroll lives here */
-  -webkit-overflow-scrolling: touch; /* smoother on iOS */
-  /* margin-top: 8px; */
 }
 
 /* ContentEditable */
