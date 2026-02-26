@@ -11,7 +11,6 @@ html, body {
 
 body {
   display: block;
-  border: 1px solid pink;
 }
 
 #root {
