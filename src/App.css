@@ -7,11 +7,12 @@ html, body {
   padding: 0;
   width: 100%;
   background-color: transparent;
-  overflow-y: scroll;
 }
 
 body {
-  align-items: flex-start;
+  display: block;
+  overflow-y: scroll;
+  border: 1px solid pink;
 }
 
 #root {
