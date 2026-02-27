@@ -45,6 +45,15 @@ const HashtagsPlugin = (props: any) => {
       onSearch={onSearchHashtags} // async handler
       menuItemComponent={HashtagMenuItem}
       menuComponent={HashtagMenuContainer}
+      onMenuOpen={() => {
+        // Send back to React Native
+        // @ts-ignore
+        window.ReactNativeWebView?.postMessage(
+          JSON.stringify({
+            type: "mention-hashtag-open",
+          })
+        );
+      }}
     />
   )
 }

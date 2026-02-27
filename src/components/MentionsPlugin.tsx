@@ -45,6 +45,15 @@ const MentionsPlugin = (props: any) => {
       onSearch={onSearchMentions} // async handler
       menuItemComponent={MentionMenuItem}
       menuComponent={MentionMenuContainer}
+      onMenuOpen={() => {
+        // Send back to React Native
+        // @ts-ignore
+        window.ReactNativeWebView?.postMessage(
+          JSON.stringify({
+            type: "mention-hashtag-open",
+          })
+        );
+      }}
     />
   )
 }
