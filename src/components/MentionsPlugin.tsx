@@ -45,8 +45,6 @@ const MentionsPlugin = (props: any) => {
       onSearch={onSearchMentions} // async handler
       menuItemComponent={MentionMenuItem}
       menuComponent={MentionMenuContainer}
-      onMenuOpen={() => props.onOpenChange(true)}
-      onMenuClose={() => props.onOpenChange(false)}
     />
   )
 }

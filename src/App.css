@@ -32,10 +32,6 @@ body {
   background-color: transparent;
 }
 
-.editor-page.extra-padding {
-  padding-bottom: 300px;
-}
-
 /* Title input */
 .editor-title {
   width: 100%;

@@ -45,8 +45,6 @@ const HashtagsPlugin = (props: any) => {
       onSearch={onSearchHashtags} // async handler
       menuItemComponent={HashtagMenuItem}
       menuComponent={HashtagMenuContainer}
-      onMenuOpen={() => props.onOpenChange(true)}
-      onMenuClose={() => props.onOpenChange(false)}
     />
   )
 }
