@@ -6,7 +6,7 @@ import { getEditorRuntimeConfig } from '../utils/editorRuntimeConfig';
 import axios from 'axios';
 import HashtagMenuContainer from "./HashtagMenuContainer";
 
-const HashtagsPlugin = (props: any) => {
+const HashtagsPlugin = () => {
 
   /**
    * onSearch handler for beautiful mentions

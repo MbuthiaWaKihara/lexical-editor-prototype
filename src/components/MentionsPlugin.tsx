@@ -6,7 +6,7 @@ import { getEditorRuntimeConfig } from '../utils/editorRuntimeConfig';
 import axios from 'axios';
 import MentionMenuContainer from "./MentionMenuContainer";
 
-const MentionsPlugin = (props: any) => {
+const MentionsPlugin = () => {
 
   /**
    * onSearch handler for beautiful mentions
