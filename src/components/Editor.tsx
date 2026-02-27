@@ -18,7 +18,6 @@ import { BeautifulMentionNode } from "lexical-beautiful-mentions";
 import HashtagsPlugin from "./HashtagsPlugin";
 import { getEditorRuntimeConfig } from "../utils/editorRuntimeConfig";
 import PasteNormalizationPlugin from './PasteNormalizationPlugin';
-import HeightSyncPlugin from './HeightSyncPlugin';
 
 const initialConfig = {
   namespace: "LexicalEditor",
@@ -90,7 +89,6 @@ export default function Editor() {
             <EditorBridgePlugin />
             <SelectionSyncPlugin />
             <PasteNormalizationPlugin />
-            <HeightSyncPlugin />
           </div>
         </div>
       </LexicalComposer>
