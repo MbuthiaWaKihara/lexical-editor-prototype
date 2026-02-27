@@ -6,7 +6,7 @@ import { getEditorRuntimeConfig } from '../utils/editorRuntimeConfig';
 import axios from 'axios';
 import MentionMenuContainer from "./MentionMenuContainer";
 
-const MentionsPlugin = () => {
+const MentionsPlugin = (props: any) => {
 
   /**
    * onSearch handler for beautiful mentions
@@ -45,6 +45,8 @@ const MentionsPlugin = () => {
       onSearch={onSearchMentions} // async handler
       menuItemComponent={MentionMenuItem}
       menuComponent={MentionMenuContainer}
+      onMenuOpen={() => props.onOpenChange(true)}
+      onMenuClose={() => props.onOpenChange(false)}
     />
   )
 }

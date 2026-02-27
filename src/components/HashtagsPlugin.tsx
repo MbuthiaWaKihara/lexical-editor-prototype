@@ -6,7 +6,7 @@ import { getEditorRuntimeConfig } from '../utils/editorRuntimeConfig';
 import axios from 'axios';
 import HashtagMenuContainer from "./HashtagMenuContainer";
 
-const HashtagsPlugin = () => {
+const HashtagsPlugin = (props: any) => {
 
   /**
    * onSearch handler for beautiful mentions
@@ -45,6 +45,8 @@ const HashtagsPlugin = () => {
       onSearch={onSearchHashtags} // async handler
       menuItemComponent={HashtagMenuItem}
       menuComponent={HashtagMenuContainer}
+      onMenuOpen={() => props.onOpenChange(true)}
+      onMenuClose={() => props.onOpenChange(false)}
     />
   )
 }

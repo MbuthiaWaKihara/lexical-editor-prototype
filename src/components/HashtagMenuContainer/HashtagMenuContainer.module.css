@@ -1,7 +1,9 @@
 .menu_container {
 	border: 1px solid #d5d8df;
-	border-radius: 20px;
+	border-radius: 8px;
 	background-color: #ffffff;
 	width: 230px;
-	box-shadow: 0 12px 24px -8px rgba(0, 0, 0, 0.18);
+	height: 120px;
+	overflow-y: scroll;
+	overflow-x: hidden;
 }

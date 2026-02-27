@@ -39,6 +39,7 @@ export default function Editor() {
 
   const [editorPlaceholder, setEditorPlaceholder] = React.useState<string>("");
   const [dynamicCss, setDynamicCss] = React.useState<string>('');
+  const [isMentionOrHashtagOpen, setIsMentionOrHashtagOpen] = React.useState<boolean>(false);
 
   React.useEffect(() => {
     const timeout = setTimeout(() => {
@@ -63,7 +64,7 @@ export default function Editor() {
     `}</style>
     <EditorConfigProvider>
       <LexicalComposer initialConfig={initialConfig}>
-        <div className="editor-page">
+        <div className={`editor-page ${isMentionOrHashtagOpen ? 'extra-padding' : ''}`}>
           <div className="editor-inner">
             <RichTextPlugin
               contentEditable={
@@ -85,8 +86,12 @@ export default function Editor() {
             <HistoryPlugin />
             <ListPlugin />
             <LinkPlugin />
-            <MentionsPlugin />
-            <HashtagsPlugin />
+            <MentionsPlugin 
+            onOpenChange={setIsMentionOrHashtagOpen}
+            />
+            <HashtagsPlugin 
+            onOpenChange={setIsMentionOrHashtagOpen}
+            />
             <EditorBridgePlugin />
             <SelectionSyncPlugin />
             <PasteNormalizationPlugin />
