@@ -64,7 +64,7 @@ export default function Editor() {
     <style id="rn-dynamic-style">{`
       *{background-color: transparent;}
       ${isCommentMode ? `
-        body{
+        html,body{
           background-color: #EEEEEE;
         }
       ` : ''}
