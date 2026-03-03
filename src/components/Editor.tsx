@@ -39,6 +39,7 @@ export default function Editor() {
 
   const [editorPlaceholder, setEditorPlaceholder] = React.useState<string>("");
   const [dynamicCss, setDynamicCss] = React.useState<string>('');
+  const [isCommentMode, setIsCommentMode] = React.useState<boolean>(false);
 
   React.useEffect(() => {
     const timeout = setTimeout(() => {
@@ -56,10 +57,22 @@ export default function Editor() {
     return () => clearTimeout(timeout);
   }, []);
 
+  React.useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const comment = params.get("comment");
+    setIsCommentMode(comment === "true");
+  }, []);
+
   return (
     <>
     <style id="rn-dynamic-style">{`
-      *{background-color: transparent;}${dynamicCss}
+      *{background-color: transparent;}
+      ${isCommentMode ? `
+        body{
+          background-color: #EEEEEE;
+        }
+      ` : ''}
+      ${dynamicCss}
     `}</style>
     <EditorConfigProvider>
       <LexicalComposer initialConfig={initialConfig}>
