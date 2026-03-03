@@ -1,7 +1,3 @@
-* {
-  background-color: transparent;
-}
-
 html, body {
   margin: 0;
   padding: 0;
@@ -16,19 +12,13 @@ body {
 
 #root {
   width: 100%;
-  background-color: transparent;
   height: 100%;
   overflow-y: scroll;
-}
-
-#root > div {
-  background-color: transparent;
 }
 
 /* Page container */
 .editor-page {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  background-color: transparent;
 }
 
 /* Title input */
@@ -48,7 +38,6 @@ body {
 /* Editor wrapper */
 .editor-inner {
   position: relative;
-  background-color: transparent;
 }
 
 /* ContentEditable */
