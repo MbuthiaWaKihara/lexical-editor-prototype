@@ -63,11 +63,10 @@ export default function Editor() {
     <>
     <style id="rn-dynamic-style">{`
       *{background-color: transparent;}
-      ${isCommentMode ? `
-        html,body{
-          background-color: #EEEEEE;
-        }
-      ` : ''}
+      html,body{
+        visibility: visible;
+        background-color: ${isCommentMode ? '#EEEEEE' : '#FFFFFF'}
+      }
       ${dynamicCss}
     `}</style>
     <EditorConfigProvider>
