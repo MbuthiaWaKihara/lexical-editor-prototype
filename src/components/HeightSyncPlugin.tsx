@@ -19,7 +19,7 @@ export default function HeightSyncPlugin() {
       if (height !== lastHeight) {
         lastHeight = height;
 
-        // @ts-ignore
+        //@ts-ignore
         window.ReactNativeWebView?.postMessage(
           JSON.stringify({
             type: "editor-height-change",
@@ -29,20 +29,27 @@ export default function HeightSyncPlugin() {
       }
     };
 
-    // 1️⃣ Detect content updates (typing, formatting, etc.)
+    const measureAfterPaint = () => {
+      // microtask → next frame → next frame (very important for paste)
+      Promise.resolve().then(() => {
+        requestAnimationFrame(() => {
+          requestAnimationFrame(sendHeight);
+        });
+      });
+    };
+
     const unregisterUpdateListener = editor.registerUpdateListener(() => {
-      requestAnimationFrame(sendHeight);
+      measureAfterPaint();
     });
 
-    // 2️⃣ Detect DOM resize changes
     const resizeObserver = new ResizeObserver(() => {
-      sendHeight();
+      measureAfterPaint();
     });
 
     resizeObserver.observe(editorElement);
 
-    // Initial measurement
-    sendHeight();
+    // initial measurement
+    measureAfterPaint();
 
     return () => {
       unregisterUpdateListener();
