@@ -37,9 +37,11 @@ const initialConfig = {
 
 export default function Editor() {
 
+  const params = new URLSearchParams(window.location.search);
+  const isCommentMode = params.get("comment") === "true";
+
   const [editorPlaceholder, setEditorPlaceholder] = React.useState<string>("");
   const [dynamicCss, setDynamicCss] = React.useState<string>('');
-  const [isCommentMode, setIsCommentMode] = React.useState<boolean>(false);
 
   React.useEffect(() => {
     const timeout = setTimeout(() => {
@@ -55,12 +57,6 @@ export default function Editor() {
     }, 100);
 
     return () => clearTimeout(timeout);
-  }, []);
-
-  React.useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const comment = params.get("comment");
-    setIsCommentMode(comment === "true");
   }, []);
 
   return (
