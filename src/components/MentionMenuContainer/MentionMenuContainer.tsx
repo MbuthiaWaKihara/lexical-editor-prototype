@@ -1,10 +1,11 @@
-import { forwardRef, useEffect } from "react";
+import { forwardRef, useLayoutEffect } from "react";
 import {
   useFloating,
   offset,
   flip,
   shift,
   autoUpdate,
+  size,
 } from "@floating-ui/react";
 import styles from "./MentionMenuContainer.module.css";
 
@@ -13,20 +14,32 @@ const MentionMenuContainer = forwardRef<HTMLDivElement, any>(
 
     const { refs, floatingStyles } = useFloating({
       placement: "bottom-start",
+      strategy: "fixed",
       middleware: [
         offset(8),          // space from caret
-        flip({ fallbackPlacements: ["top-start", "bottom-end", "top-end"] }),             // flip vertically and horizontally if not enough room
-        shift({ padding: 8 }) // prevent viewport overflow
+        flip({
+          fallbackPlacements: ["top-start", "bottom-end", "top-end"],
+          padding: 8,
+        }), // flip vertically and horizontally if not enough room
+        shift({ padding: 8, crossAxis: true }), // prevent viewport overflow on both axes
+        size({
+          padding: 8,
+          apply({ availableHeight, elements }) {
+            Object.assign(elements.floating.style, {
+              maxHeight: `${Math.max(availableHeight, 120)}px`,
+              overflowY: "auto",
+            });
+          },
+        }),
       ],
-      whileElementsMounted: autoUpdate,
+      whileElementsMounted: (...args) =>
+        autoUpdate(...args, { animationFrame: true }),
     });
 
-    // Attach Lexical's anchor (caret position)
-    useEffect(() => {
-      if (anchorElementRef?.current) {
-        refs.setReference(anchorElementRef.current);
-      }
-    }, [anchorElementRef, refs]);
+    // Keep Floating UI reference synced to Lexical's moving caret anchor.
+    useLayoutEffect(() => {
+      refs.setReference(anchorElementRef?.current ?? null);
+    });
 
     return (
       <div
