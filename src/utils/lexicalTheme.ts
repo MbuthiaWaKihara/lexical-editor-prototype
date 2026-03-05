@@ -3,6 +3,7 @@ import { type BeautifulMentionsTheme } from "lexical-beautiful-mentions";
 const beautifulMentionsTheme: BeautifulMentionsTheme = {
   // default mention styles
   "@": "selected-mention",
+  "#": "selected-hashtag",
 };
 
 

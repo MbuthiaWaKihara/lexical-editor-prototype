@@ -130,7 +130,7 @@ body {
   font-style: italic !important;
 }
 
-.selected-mention {
+.selected-mention, .selected-hashtag {
   color: #365de6;
 }
 
