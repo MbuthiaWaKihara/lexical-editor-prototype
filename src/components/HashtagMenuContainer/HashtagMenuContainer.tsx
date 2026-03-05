@@ -1,50 +1,61 @@
-import { forwardRef, useLayoutEffect } from "react";
-import {
-  useFloating,
-  offset,
-  flip,
-  shift,
-  autoUpdate,
-  size,
-} from "@floating-ui/react";
+import { forwardRef, useEffect, useRef } from "react";
+import { createPopper } from "@popperjs/core";
+import type { Instance } from "@popperjs/core";
 import styles from "./HashtagMenuContainer.module.css";
 
 const HashtagMenuContainer = forwardRef<HTMLDivElement, any>(
   ({ children, anchorElementRef, style, ...props }, forwardedRef) => {
+    const popperInstance = useRef<Instance | null>(null);
+    const floatingRef = useRef<HTMLDivElement | null>(null);
 
-    const { refs, floatingStyles } = useFloating({
-      placement: "bottom-start",
-      strategy: "fixed",
-      middleware: [
-        offset(8),          // space from caret
-        flip({
-          fallbackPlacements: ["top-start", "bottom-end", "top-end"],
-          padding: 8,
-        }), // flip vertically and horizontally if not enough room
-        shift({ padding: 8, crossAxis: true }), // prevent viewport overflow on both axes
-        size({
-          padding: 8,
-          apply({ availableHeight, elements }) {
-            Object.assign(elements.floating.style, {
-              maxHeight: `${Math.max(availableHeight, 120)}px`,
-              overflowY: "auto",
-            });
-          },
-        }),
-      ],
-      whileElementsMounted: (...args) =>
-        autoUpdate(...args, { animationFrame: true }),
-    });
+    useEffect(() => {
+      if (!anchorElementRef?.current || !floatingRef.current) return;
 
-    // Keep Floating UI reference synced to Lexical's moving caret anchor.
-    useLayoutEffect(() => {
-      refs.setReference(anchorElementRef?.current ?? null);
-    });
+      popperInstance.current = createPopper(
+        anchorElementRef.current,
+        floatingRef.current,
+        {
+          placement: "bottom-start",
+          strategy: "fixed",
+          modifiers: [
+            {
+              name: "offset",
+              options: { offset: [0, 8] },
+            },
+            {
+              name: "flip",
+              options: {
+                fallbackPlacements: [
+                  "top-start",
+                  "bottom-end",
+                  "top-end",
+                ],
+                padding: 8,
+                boundary: "viewport",
+              },
+            },
+            {
+              name: "preventOverflow",
+              options: {
+                padding: 8,
+                boundary: "viewport",
+              },
+            },
+          ],
+        }
+      );
 
-    return (
+      return () => {
+        popperInstance.current?.destroy();
+        popperInstance.current = null;
+      };
+    }, [anchorElementRef]);
+
+    const menu = (
       <div
         ref={(node) => {
-          refs.setFloating(node);
+          floatingRef.current = node;
+
           if (typeof forwardedRef === "function") {
             forwardedRef(node);
           } else if (forwardedRef) {
@@ -53,15 +64,16 @@ const HashtagMenuContainer = forwardRef<HTMLDivElement, any>(
         }}
         {...props}
         style={{
-          ...floatingStyles,
           ...style,
-          zIndex: 1000,
+          zIndex: 9999,
         }}
         className={styles.menu_container}
       >
         {children}
       </div>
     );
+
+    return menu
   }
 );
 

@@ -11,7 +11,6 @@
   },
   "dependencies": {
     "@emoji-mart/data": "^1.2.1",
-    "@floating-ui/react": "^0.27.18",
     "@lexical/hashtag": "^0.39.0",
     "@lexical/html": "^0.39.0",
     "@lexical/link": "^0.39.0",
@@ -20,6 +19,7 @@
     "@lexical/rich-text": "^0.39.0",
     "@lexical/selection": "^0.39.0",
     "@lexical/utils": "^0.39.0",
+    "@popperjs/core": "^2.11.8",
     "axios": "^1.13.2",
     "emoji-mart": "^5.6.0",
     "lexical": "^0.39.0",
