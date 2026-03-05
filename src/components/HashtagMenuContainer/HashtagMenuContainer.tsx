@@ -15,7 +15,7 @@ const HashtagMenuContainer = forwardRef<HTMLDivElement, any>(
       placement: "bottom-start",
       middleware: [
         offset(8),          // space from caret
-        flip(),             // flip if not enough room
+        flip({ fallbackPlacements: ["top-start", "bottom-end", "top-end"] }),             // flip vertically and horizontally if not enough room
         shift({ padding: 8 }) // prevent viewport overflow
       ],
       whileElementsMounted: autoUpdate,
