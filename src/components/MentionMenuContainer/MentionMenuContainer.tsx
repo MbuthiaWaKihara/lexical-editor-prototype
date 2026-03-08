@@ -1,61 +1,36 @@
-import { forwardRef, useEffect, useRef } from "react";
-import { createPopper } from "@popperjs/core";
-import type { Instance } from "@popperjs/core";
+import { forwardRef, useLayoutEffect, useRef } from "react";
 import styles from "./MentionMenuContainer.module.css";
 
 const MentionMenuContainer = forwardRef<HTMLDivElement, any>(
-  ({ children, anchorElementRef, style, ...props }, forwardedRef) => {
-    const popperInstance = useRef<Instance | null>(null);
-    const floatingRef = useRef<HTMLDivElement | null>(null);
+  ({ children, style, className, ...props }, forwardedRef) => {
+    const localRef = useRef<HTMLDivElement | null>(null);
 
-    useEffect(() => {
-      if (!anchorElementRef?.current || !floatingRef.current) return;
+    useLayoutEffect(() => {
+      const node = localRef.current;
+      if (!node) return;
 
-      popperInstance.current = createPopper(
-        anchorElementRef.current,
-        floatingRef.current,
-        {
-          placement: "bottom-start",
-          strategy: "fixed",
-          modifiers: [
-            {
-              name: "offset",
-              options: { offset: [0, 8] },
-            },
-            {
-              name: "flip",
-              options: {
-                fallbackPlacements: [
-                  "top-start",
-                  "bottom-end",
-                  "top-end",
-                ],
-                padding: 8,
-                boundary: "viewport",
-              },
-            },
-            {
-              name: "preventOverflow",
-              options: {
-                padding: 8,
-                boundary: "viewport",
-              },
-            },
-          ],
-        }
-      );
+      let frame = 0;
+      const requestReposition = () => {
+        cancelAnimationFrame(frame);
+        frame = requestAnimationFrame(() => {
+          window.dispatchEvent(new Event("resize"));
+        });
+      };
+
+      requestReposition();
+      const observer = new ResizeObserver(requestReposition);
+      observer.observe(node);
 
       return () => {
-        popperInstance.current?.destroy();
-        popperInstance.current = null;
+        cancelAnimationFrame(frame);
+        observer.disconnect();
       };
-    }, [anchorElementRef]);
+    }, [children]);
 
-    const menu = (
+    return (
       <div
         ref={(node) => {
-          floatingRef.current = node;
-
+          localRef.current = node;
           if (typeof forwardedRef === "function") {
             forwardedRef(node);
           } else if (forwardedRef) {
@@ -63,17 +38,12 @@ const MentionMenuContainer = forwardRef<HTMLDivElement, any>(
           }
         }}
         {...props}
-        style={{
-          ...style,
-          zIndex: 9999,
-        }}
-        className={styles.menu_container}
+        style={style}
+        className={[styles.menu_container, className].filter(Boolean).join(" ")}
       >
         {children}
       </div>
     );
-
-    return menu;
   }
 );
 
