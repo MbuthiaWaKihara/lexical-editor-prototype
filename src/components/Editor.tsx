@@ -19,6 +19,7 @@ import HashtagsPlugin from "./HashtagsPlugin";
 import { getEditorRuntimeConfig } from "../utils/editorRuntimeConfig";
 import PasteNormalizationPlugin from './PasteNormalizationPlugin';
 import HeightSyncPlugin from './HeightSyncPlugin';
+import CommentInputScrollPlugin from './CommentInputScrollPlugin';
 
 const initialConfig = {
   namespace: "LexicalEditor",
@@ -101,6 +102,7 @@ export default function Editor() {
             <SelectionSyncPlugin />
             <PasteNormalizationPlugin />
             <HeightSyncPlugin />
+            <CommentInputScrollPlugin />
           </div>
         </div>
       </LexicalComposer>

@@ -1,6 +1,7 @@
 import { Children, forwardRef, useLayoutEffect, useMemo, useRef } from "react";
 import type { CSSProperties } from "react";
 import styles from "./HashtagMenuContainer.module.css";
+import { getEditorRuntimeConfig } from "../../utils/editorRuntimeConfig";
 
 const HashtagMenuContainer = forwardRef<HTMLDivElement, any>(
   ({ children, style, className, ...props }, forwardedRef) => {
@@ -39,8 +40,16 @@ const HashtagMenuContainer = forwardRef<HTMLDivElement, any>(
       };
     }, [children]);
 
+    const runtimeConfig = getEditorRuntimeConfig();
+    const isCommentingInput =
+      runtimeConfig.isCommentingInput ?? false;
+    const menuMaxHeight = isCommentingInput
+      ? "min(160px, calc(100vh - 16px))"
+      : "min(240px, calc(100vh - 16px))";
+
     const mergedStyle: CSSProperties = {
       ...(style as CSSProperties),
+      maxHeight: menuMaxHeight,
       ...(hasVisibleContent
         ? null
         : {

@@ -36,6 +36,7 @@ type EditorCommand =
         hashtagsUrl?: string;
         accessToken?: string;
         css?: string;
+        isCommentingInput?: boolean;
       };
     }
   | { type: "clear-editor" }

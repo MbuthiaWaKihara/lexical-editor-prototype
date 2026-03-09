@@ -4,6 +4,7 @@ export type EditorRuntimeConfig = {
   accessToken?: string;
   placeholder?: string;
   css?: string;
+  isCommentingInput?: boolean;
 };
 
 let runtimeConfig: EditorRuntimeConfig = {};
@@ -15,6 +16,10 @@ export function setEditorRuntimeConfig(
     ...runtimeConfig,
     ...partial,
   };
+
+  if (typeof window !== "undefined") {
+    window.dispatchEvent(new Event("editor-runtime-config-change"));
+  }
 }
 
 export function getEditorRuntimeConfig(): EditorRuntimeConfig {
