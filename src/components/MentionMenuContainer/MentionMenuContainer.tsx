@@ -44,8 +44,8 @@ const MentionMenuContainer = forwardRef<HTMLDivElement, any>(
     const isCommentingInput =
       runtimeConfig.isCommentingInput ?? false;
     const menuMaxHeight = isCommentingInput
-      ? "min(160px, calc(100vh - 16px))"
-      : "min(240px, calc(100vh - 16px))";
+      ? "min(120px, calc(100vh - 16px))"
+      : "min(160px, calc(100vh - 16px))";
 
     const mergedStyle: CSSProperties = {
       ...(style as CSSProperties),
