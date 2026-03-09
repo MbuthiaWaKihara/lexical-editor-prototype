@@ -1,9 +1,21 @@
-import { forwardRef, useLayoutEffect, useRef } from "react";
+import { Children, forwardRef, useLayoutEffect, useMemo, useRef } from "react";
+import type { CSSProperties } from "react";
 import styles from "./HashtagMenuContainer.module.css";
 
 const HashtagMenuContainer = forwardRef<HTMLDivElement, any>(
   ({ children, style, className, ...props }, forwardedRef) => {
     const localRef = useRef<HTMLDivElement | null>(null);
+    const hasVisibleContent = useMemo(() => {
+      return Children.toArray(children).some((child) => {
+        if (child === null || child === undefined) {
+          return false;
+        }
+        if (typeof child === "string") {
+          return child.trim().length > 0;
+        }
+        return true;
+      });
+    }, [children]);
 
     useLayoutEffect(() => {
       const node = localRef.current;
@@ -27,6 +39,20 @@ const HashtagMenuContainer = forwardRef<HTMLDivElement, any>(
       };
     }, [children]);
 
+    const mergedStyle: CSSProperties = {
+      ...(style as CSSProperties),
+      ...(hasVisibleContent
+        ? null
+        : {
+            border: "0",
+            background: "transparent",
+            boxShadow: "none",
+            padding: "0",
+            minHeight: "0",
+            overflow: "hidden",
+          }),
+    };
+
     return (
       <div
         ref={(node) => {
@@ -38,7 +64,7 @@ const HashtagMenuContainer = forwardRef<HTMLDivElement, any>(
           }
         }}
         {...props}
-        style={style}
+        style={mergedStyle}
         className={[styles.menu_container, className].filter(Boolean).join(" ")}
       >
         {children}
