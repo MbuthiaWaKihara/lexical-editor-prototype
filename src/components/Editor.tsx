@@ -54,7 +54,7 @@ export default function Editor() {
       if(css) {
         setDynamicCss(css);
       }
-    }, 500);
+    }, 200);
 
     return () => clearTimeout(timeout);
   }, []);
