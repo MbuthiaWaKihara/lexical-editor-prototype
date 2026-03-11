@@ -40,8 +40,11 @@ export default function Editor() {
 
   const params = new URLSearchParams(window.location.search);
   const isCommentMode = params.get("comment") === "true";
+  const placeholderParam = params.get("placeholder");
 
-  const [editorPlaceholder, setEditorPlaceholder] = React.useState<string>("");
+  const [editorPlaceholder, setEditorPlaceholder] = React.useState<string>(
+    placeholderParam ?? ""
+  );
   const [dynamicCss, setDynamicCss] = React.useState<string>('');
 
   React.useEffect(() => {
