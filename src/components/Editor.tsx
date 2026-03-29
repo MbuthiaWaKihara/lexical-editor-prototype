@@ -81,7 +81,7 @@ export default function Editor() {
               contentEditable={
                 <ContentEditable 
                 className="editor-input" 
-                spellCheck={true}
+                // spellCheck={true}
                 // autoCorrect="on"
                 autoCapitalize="sentences"
                 />
