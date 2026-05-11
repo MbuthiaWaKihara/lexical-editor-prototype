@@ -69,7 +69,7 @@ export default function Editor() {
       *{background-color: transparent;}
       html,body{
         visibility: visible;
-        background-color: ${isCommentMode ? '#EEEEEE' : '#FFFFFF'}
+        background-color: ${isCommentMode ? '#F7F8F9' : '#FFFFFF'}
       }
       ${dynamicCss}
     `}</style>
