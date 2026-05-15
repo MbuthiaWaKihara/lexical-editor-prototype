@@ -54,6 +54,7 @@ const MentionsPlugin = () => {
           })
         );
       }}
+      autoSpace={false}
     />
   )
 }
