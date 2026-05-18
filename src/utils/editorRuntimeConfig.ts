@@ -7,7 +7,17 @@ export type EditorRuntimeConfig = {
   isCommentingInput?: boolean;
 };
 
-let runtimeConfig: EditorRuntimeConfig = {};
+function readInitialConfigFromUrl(): EditorRuntimeConfig {
+  if (typeof window === "undefined") return {};
+  const params = new URLSearchParams(window.location.search);
+  const placeholder = params.get("placeholder");
+  return {
+    isCommentingInput: params.get("comment") === "true",
+    ...(placeholder ? { placeholder } : {}),
+  };
+}
+
+let runtimeConfig: EditorRuntimeConfig = readInitialConfigFromUrl();
 
 export function setEditorRuntimeConfig(
   partial: EditorRuntimeConfig
