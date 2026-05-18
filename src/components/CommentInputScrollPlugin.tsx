@@ -30,7 +30,8 @@ export default function CommentInputScrollPlugin() {
       }
 
       rootElement.style.overflow = "";
-      rootElement.style.overflowY = "scroll";
+      rootElement.style.overflowX = "hidden";
+      rootElement.style.overflowY = "auto";
     };
 
     const updateFromEditorState = (editorState: any) => {
@@ -61,7 +62,8 @@ export default function CommentInputScrollPlugin() {
         handleRuntimeConfigChange
       );
       rootElement.style.overflow = "";
-      rootElement.style.overflowY = "scroll";
+      rootElement.style.overflowX = "";
+      rootElement.style.overflowY = "";
     };
   }, [editor]);
 
