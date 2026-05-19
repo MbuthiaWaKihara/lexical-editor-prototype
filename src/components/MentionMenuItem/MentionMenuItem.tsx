@@ -10,15 +10,12 @@ const MentionMenuItem = forwardRef<HTMLDivElement, any>(
         ref={ref}
         {...props}
         onTouchStart={(e) => {
-          console.log("[MentionMenuItem] onTouchStart", item?.value);
           if (typeof onTouchStart === "function") onTouchStart(e);
         }}
         onMouseDown={(e) => {
-          console.log("[MentionMenuItem] onMouseDown", item?.value);
           if (typeof onMouseDown === "function") onMouseDown(e);
         }}
         onClick={(e) => {
-          console.log("[MentionMenuItem] onClick", item?.value);
           if (typeof onClick === "function") onClick(e);
         }}
         className={`${styles.item_container} ${selected ? styles.selected : ""}`}
