@@ -4,11 +4,23 @@ import miscUtils from "../../utils/miscUtils";
 import { colors } from "../../utils/data";
 
 const MentionMenuItem = forwardRef<HTMLDivElement, any>(
-  ({ item, selected, ...props }, ref) => {
+  ({ item, selected, onClick, onMouseDown, onTouchStart, ...props }, ref) => {
     return (
       <div
         ref={ref}
-        {...props} 
+        {...props}
+        onTouchStart={(e) => {
+          console.log("[MentionMenuItem] onTouchStart", item?.value);
+          if (typeof onTouchStart === "function") onTouchStart(e);
+        }}
+        onMouseDown={(e) => {
+          console.log("[MentionMenuItem] onMouseDown", item?.value);
+          if (typeof onMouseDown === "function") onMouseDown(e);
+        }}
+        onClick={(e) => {
+          console.log("[MentionMenuItem] onClick", item?.value);
+          if (typeof onClick === "function") onClick(e);
+        }}
         className={`${styles.item_container} ${selected ? styles.selected : ""}`}
       >
         {

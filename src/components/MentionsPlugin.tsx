@@ -17,6 +17,15 @@ const MentionsPlugin = () => {
     console.log('EVANS: ', trigger)
     try {
       const { mentionsUrl, accessToken } = getEditorRuntimeConfig();
+      console.log(
+        "[MentionsPlugin] onSearchMentions",
+        JSON.stringify({
+          mentionsUrl,
+          hasAccessToken: !!accessToken,
+          trigger,
+          query,
+        })
+      );
       if (!mentionsUrl || !accessToken) return [];
   
       const res = await axios.get(
