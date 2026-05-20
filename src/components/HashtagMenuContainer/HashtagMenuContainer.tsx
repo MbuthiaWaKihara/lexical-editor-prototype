@@ -46,9 +46,13 @@ const HashtagMenuContainer = forwardRef<HTMLDivElement, any>(
     const menuMaxHeight = isCommentingInput
       ? "min(120px, calc(100vh - 16px))"
       : "min(160px, calc(100vh - 16px))";
+    const menuWidth = isCommentingInput
+      ? "min(200px, calc(100vw - 32px))"
+      : "min(230px, calc(100vw - 16px))";
 
     const mergedStyle: CSSProperties = {
       ...(style as CSSProperties),
+      width: menuWidth,
       maxHeight: menuMaxHeight,
       ...(hasVisibleContent
         ? null
