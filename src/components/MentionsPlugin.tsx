@@ -54,6 +54,21 @@ const MentionsPlugin = () => {
           })
         );
       }}
+      onMenuClose={() => {
+        // @ts-ignore
+        window.ReactNativeWebView?.postMessage(
+          JSON.stringify({
+            type: "mention-hashtag-close",
+          })
+        );
+        // Defer past mention-node insertion + layout, then force a fresh
+        // height measurement so RN can settle on the correct content size.
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            window.dispatchEvent(new Event("editor-force-height-resend"));
+          });
+        });
+      }}
       autoSpace={false}
     />
   )

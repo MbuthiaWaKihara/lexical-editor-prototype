@@ -48,12 +48,23 @@ export default function HeightSyncPlugin() {
 
     resizeObserver.observe(editorElement);
 
+    const handleForceResend = () => {
+      lastHeight = 0;
+      measureAfterPaint();
+    };
+
+    window.addEventListener("editor-force-height-resend", handleForceResend);
+
     // initial measurement
     measureAfterPaint();
 
     return () => {
       unregisterUpdateListener();
       resizeObserver.disconnect();
+      window.removeEventListener(
+        "editor-force-height-resend",
+        handleForceResend
+      );
     };
   }, [editor]);
 

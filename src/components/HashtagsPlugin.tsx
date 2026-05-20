@@ -54,6 +54,19 @@ const HashtagsPlugin = () => {
           })
         );
       }}
+      onMenuClose={() => {
+        // @ts-ignore
+        window.ReactNativeWebView?.postMessage(
+          JSON.stringify({
+            type: "mention-hashtag-close",
+          })
+        );
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            window.dispatchEvent(new Event("editor-force-height-resend"));
+          });
+        });
+      }}
       autoSpace={false}
     />
   )
