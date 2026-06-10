@@ -15,14 +15,14 @@ body {
   width: 100%;
   height: 100%;
   overflow-y: scroll;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
+  /* scrollbar-width: none;
+  -ms-overflow-style: none; */
 }
 
 /* Hide scrollbars in iOS WebView (WebKit) while keeping scroll enabled */
-*::-webkit-scrollbar {
+/* *::-webkit-scrollbar {
   display: none;
-}
+} */
 
 /* Page container */
 .editor-page {
