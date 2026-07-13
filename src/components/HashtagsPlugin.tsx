@@ -1,75 +1,36 @@
 import {
   BeautifulMentionsPlugin,
 } from "lexical-beautiful-mentions";
+import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import HashtagMenuItem from "./HashtagMenuItem";
-import { getEditorRuntimeConfig } from '../utils/editorRuntimeConfig';
-import axios from 'axios';
 import HashtagMenuContainer from "./HashtagMenuContainer";
+import { beginMentionSession } from "../utils/mentionSession";
 
 const HashtagsPlugin = () => {
+  const [editor] = useLexicalComposerContext();
 
   /**
-   * onSearch handler for beautiful mentions
-   * @param trigger the trigger character, e.g. "@"
-   * @param query the text after the trigger
+   * The query is owned by the native bottom sheet, not the editor. So instead of
+   * searching here and rendering an in-WebView menu, we simply detect the "#"
+   * trigger, tell React Native to open the picker, and return no results so the
+   * (invisible) menu never shows anything.
    */
-  const onSearchHashtags: any = async (trigger: string, query: string) => {
-    console.log('EVANS: ', trigger)
-    try {
-      const { hashtagsUrl, accessToken } = getEditorRuntimeConfig();
-      if (!hashtagsUrl || !accessToken) return [];
-  
-      const res = await axios.get(
-        `${hashtagsUrl}&search=${encodeURIComponent(query)}`,
-        {
-          headers: { Authorization: `Bearer ${accessToken}` },
-        }
-      );
-  
-      // The plugin expects an array of items with `value` and optional `data`.
-      return (
-        res.data?.data?.data?.map((m: any) => ({
-          value: m.name,
-          data: m,
-        })) ?? []
-      );
-    } catch (err) {
-      console.error("hashtags search failed", err);
-      return [];
-    }
-  }
-  
+  const onSearchHashtags: any = async (trigger: string) => {
+    beginMentionSession(editor, trigger);
+    return [];
+  };
+
   return (
     <BeautifulMentionsPlugin
       triggers={["#"]}       // listen for "#" mentions
-      onSearch={onSearchHashtags} // async handler
+      onSearch={onSearchHashtags}
+      searchDelay={0}
+      creatable={false}
       menuItemComponent={HashtagMenuItem}
       menuComponent={HashtagMenuContainer}
-      onMenuOpen={() => {
-        // Send back to React Native
-        // @ts-ignore
-        window.ReactNativeWebView?.postMessage(
-          JSON.stringify({
-            type: "mention-hashtag-open",
-          })
-        );
-      }}
-      onMenuClose={() => {
-        // @ts-ignore
-        window.ReactNativeWebView?.postMessage(
-          JSON.stringify({
-            type: "mention-hashtag-close",
-          })
-        );
-        requestAnimationFrame(() => {
-          requestAnimationFrame(() => {
-            window.dispatchEvent(new Event("editor-force-height-resend"));
-          });
-        });
-      }}
       autoSpace={false}
     />
-  )
-}
+  );
+};
 
-export default HashtagsPlugin
+export default HashtagsPlugin;

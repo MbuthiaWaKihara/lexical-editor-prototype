@@ -5,7 +5,12 @@ import {
   $isRangeSelection,
   $getRoot,
   $createParagraphNode,
+  $getNodeByKey,
+  $isTextNode,
+  $createTextNode,
 } from "lexical";
+import { $createBeautifulMentionNode } from "lexical-beautiful-mentions";
+import { getPendingMention, endMentionSession } from "../utils/mentionSession";
 import {
   INSERT_ORDERED_LIST_COMMAND,
   INSERT_UNORDERED_LIST_COMMAND,
@@ -39,6 +44,15 @@ type EditorCommand =
         isCommentingInput?: boolean;
       };
     }
+  | {
+      type: "insert-mention";
+      payload: {
+        trigger: string;
+        value: string;
+        data: Record<string, unknown>;
+      };
+    }
+  | { type: "cancel-mention" }
   | { type: "clear-editor" }
   | { type: "focus-editor" }
   | { type: "blur-editor" }
@@ -77,6 +91,103 @@ export default function EditorBridgePlugin() {
             root.append($createParagraphNode());
           });
           return;
+
+        // ===== MENTION / HASHTAG (native picker) =====
+        // Native bottom sheet picked an item — remove the trigger char that
+        // opened the session and drop a mention node in its place. The node
+        // shape ({ trigger, value, data: { data: <apiObject> } }) is identical
+        // to what the in-editor typeahead used to produce, so the downstream
+        // payload serialization is unchanged.
+        case "insert-mention": {
+          const { trigger, value } = data.payload;
+          const itemData = data.payload.data;
+
+          editor.update(() => {
+            const mentionNode = $createBeautifulMentionNode(trigger, value, {
+              data: itemData as any,
+            });
+
+            const pending = getPendingMention();
+            let inserted = false;
+
+            if (pending && pending.key && pending.offset != null) {
+              const node = $getNodeByKey(pending.key);
+              if ($isTextNode(node)) {
+                const text = node.getTextContent();
+                const triggerIdx = pending.offset - 1;
+
+                if (triggerIdx >= 0 && text[triggerIdx] === trigger) {
+                  const before = text.slice(0, triggerIdx);
+                  const after = text.slice(pending.offset);
+                  const afterNode = after ? $createTextNode(after) : null;
+
+                  if (before) {
+                    node.insertBefore($createTextNode(before));
+                  }
+                  node.insertBefore(mentionNode);
+                  if (afterNode) {
+                    node.insertBefore(afterNode);
+                  }
+                  node.remove();
+
+                  if (afterNode) {
+                    afterNode.select(0, 0);
+                  } else {
+                    const parent = mentionNode.getParent();
+                    if (parent && "selectEnd" in parent) {
+                      (parent as any).selectEnd();
+                    }
+                  }
+                  inserted = true;
+                }
+              }
+            }
+
+            if (!inserted) {
+              // Fallback: nothing to clean up — just insert at the caret / end.
+              let selection = $getSelection();
+              if (!$isRangeSelection(selection)) {
+                $getRoot().selectEnd();
+                selection = $getSelection();
+              }
+              if ($isRangeSelection(selection)) {
+                selection.insertNodes([mentionNode]);
+              }
+            }
+          });
+
+          endMentionSession();
+          // Focus/keyboard restoration is driven from React Native (reusing the
+          // established focusEditor bridge) once the bottom sheet has dismissed.
+          return;
+        }
+
+        // Native bottom sheet dismissed without a pick — remove the dangling
+        // trigger char so the editor is left clean.
+        case "cancel-mention": {
+          editor.update(() => {
+            const pending = getPendingMention();
+            if (pending && pending.key && pending.offset != null) {
+              const node = $getNodeByKey(pending.key);
+              if ($isTextNode(node)) {
+                const text = node.getTextContent();
+                const triggerIdx = pending.offset - 1;
+                if (triggerIdx >= 0 && text[triggerIdx] === pending.trigger) {
+                  const newText =
+                    text.slice(0, triggerIdx) + text.slice(pending.offset);
+                  if (newText.length === 0) {
+                    node.remove();
+                  } else {
+                    node.setTextContent(newText);
+                  }
+                }
+              }
+            }
+          });
+          endMentionSession();
+          return;
+        }
+
         // ===== RUNTIME CONFIG (NEW) =====
         case "init-config":
           console.log('init-config payload: ', data.payload);

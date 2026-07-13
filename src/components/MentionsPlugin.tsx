@@ -1,77 +1,36 @@
 import {
   BeautifulMentionsPlugin,
 } from "lexical-beautiful-mentions";
+import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import MentionMenuItem from "./MentionMenuItem";
-import { getEditorRuntimeConfig } from '../utils/editorRuntimeConfig';
-import axios from 'axios';
 import MentionMenuContainer from "./MentionMenuContainer";
+import { beginMentionSession } from "../utils/mentionSession";
 
 const MentionsPlugin = () => {
+  const [editor] = useLexicalComposerContext();
 
   /**
-   * onSearch handler for beautiful mentions
-   * @param trigger the trigger character, e.g. "@"
-   * @param query the text after the trigger
+   * The query is owned by the native bottom sheet, not the editor. So instead of
+   * searching here and rendering an in-WebView menu, we simply detect the "@"
+   * trigger, tell React Native to open the picker, and return no results so the
+   * (invisible) menu never shows anything.
    */
-  const onSearchMentions: any = async (trigger: string, query: string) => {
-    console.log('EVANS: ', trigger)
-    try {
-      const { mentionsUrl, accessToken } = getEditorRuntimeConfig();
-      if (!mentionsUrl || !accessToken) return [];
-  
-      const res = await axios.get(
-        `${mentionsUrl}?search=${encodeURIComponent(query)}`,
-        {
-          headers: { Authorization: `Bearer ${accessToken}` },
-        }
-      );
-  
-      // The plugin expects an array of items with `value` and optional `data`.
-      return (
-        res.data?.data?.map((m: any) => ({
-          value: m.user.full_name,
-          data: m.user,
-        })) ?? []
-      );
-    } catch (err) {
-      console.error("mentions search failed", err);
-      return [];
-    }
-  }
-  
+  const onSearchMentions: any = async (trigger: string) => {
+    beginMentionSession(editor, trigger);
+    return [];
+  };
+
   return (
     <BeautifulMentionsPlugin
       triggers={["@"]}       // listen for "@" mentions
-      onSearch={onSearchMentions} // async handler
+      onSearch={onSearchMentions}
+      searchDelay={0}
+      creatable={false}
       menuItemComponent={MentionMenuItem}
       menuComponent={MentionMenuContainer}
-      onMenuOpen={() => {
-        // Send back to React Native
-        // @ts-ignore
-        window.ReactNativeWebView?.postMessage(
-          JSON.stringify({
-            type: "mention-hashtag-open",
-          })
-        );
-      }}
-      onMenuClose={() => {
-        // @ts-ignore
-        window.ReactNativeWebView?.postMessage(
-          JSON.stringify({
-            type: "mention-hashtag-close",
-          })
-        );
-        // Defer past mention-node insertion + layout, then force a fresh
-        // height measurement so RN can settle on the correct content size.
-        requestAnimationFrame(() => {
-          requestAnimationFrame(() => {
-            window.dispatchEvent(new Event("editor-force-height-resend"));
-          });
-        });
-      }}
       autoSpace={false}
     />
-  )
-}
+  );
+};
 
-export default MentionsPlugin
+export default MentionsPlugin;
