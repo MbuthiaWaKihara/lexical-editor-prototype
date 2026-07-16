@@ -116,7 +116,9 @@ export default function EditorBridgePlugin() {
                 const text = node.getTextContent();
                 const triggerIdx = pending.offset - 1;
 
-                if (triggerIdx >= 0 && text[triggerIdx] === trigger) {
+                // Match on the char actually typed (pending.trigger) so we always
+                // remove the real trigger char that opened this session.
+                if (triggerIdx >= 0 && text[triggerIdx] === pending.trigger) {
                   const before = text.slice(0, triggerIdx);
                   const after = text.slice(pending.offset);
                   const afterNode = after ? $createTextNode(after) : null;

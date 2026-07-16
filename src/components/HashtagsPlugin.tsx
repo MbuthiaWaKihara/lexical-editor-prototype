@@ -26,6 +26,12 @@ const HashtagsPlugin = () => {
       onSearch={onSearchHashtags}
       searchDelay={0}
       creatable={false}
+      // We own insertion via the native bridge, and we deliberately blur the
+      // editor to hand off to the bottom sheet — so beautiful-mentions must
+      // never auto-insert on blur, and must not resurface existing hashtags as
+      // suggestions (which would otherwise get committed on that blur).
+      insertOnBlur={false}
+      showCurrentMentionsAsSuggestions={false}
       menuItemComponent={HashtagMenuItem}
       menuComponent={HashtagMenuContainer}
       autoSpace={false}

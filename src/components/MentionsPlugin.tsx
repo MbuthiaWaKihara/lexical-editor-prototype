@@ -26,6 +26,12 @@ const MentionsPlugin = () => {
       onSearch={onSearchMentions}
       searchDelay={0}
       creatable={false}
+      // We own insertion via the native bridge, and we deliberately blur the
+      // editor to hand off to the bottom sheet — so beautiful-mentions must
+      // never auto-insert on blur, and must not resurface existing mentions as
+      // suggestions (which would otherwise get committed on that blur).
+      insertOnBlur={false}
+      showCurrentMentionsAsSuggestions={false}
       menuItemComponent={MentionMenuItem}
       menuComponent={MentionMenuContainer}
       autoSpace={false}
